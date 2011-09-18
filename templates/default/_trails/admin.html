@@ -1,0 +1,18 @@
+<!--Template for the admin component -->
+<div>
+	<fieldset>
+		<legend>Data Management:</legend>
+		<div id="addBtn">New trail</div>
+		<script type="text/javascript">
+			$(function() {
+				$("#addBtn").button({
+					icons : {
+						primary : "ui-icon-plus"
+					}
+				}).click(function() {
+					$("#{{ dialogId }}").dialog('open');
+				});
+			});
+		</script>
+	</fieldset>
+</div>

@@ -1,0 +1,49 @@
+<!-- Template for the trail table entries -->
+{% if trails %}
+<table style="width: 100%;">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Difficulty</th>
+			<th>Condition</th>
+			<th>Region</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for entry in trails %}
+		<tr>
+			<td>{{ entry.title }}</td>
+			<td>{{ entry.difficulty }}</td>
+			<td>{{ entry.condition }}</td>
+			<td>{{ entry.region }}</td>
+			<td>
+				<div id="viewBtn_{{ entry.key }}">View</div> <script
+					type="text/javascript">
+					$(function() {
+						$("#viewBtn_{{ entry.key }}").button().click(
+							function() {
+								$.ajax({
+									url : "/trails/show",
+									data : {
+										id : "{{ entry.key }}"
+									},
+									dataType : "json",
+									success : function(data) {
+										showTrail(data);
+									},
+									error : function() {
+										alert("error");
+									}
+								});
+						});
+			});
+		</script></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+{% else %}
+<p>There are no trails in the application.</p>
+{% endif %}

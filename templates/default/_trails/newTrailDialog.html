@@ -1,0 +1,113 @@
+<!-- Dialog that is shown when the user wishes to create a new trail -->
+<div id="{{ dialogId }}" title="New location">
+	<form action="{{ uploadUrl }}" method="POST" id="{{ formId }}"
+		enctype="multipart/form-data">
+		<div id="trailFormTabs">
+			<ul>
+				<li><a href="#mandatoryInfo">Mandatory info</a></li>
+				<li><a href="#optionalInfo">Optional info</a></li>
+			</ul>
+
+			<div id="mandatoryInfo">
+				<div>
+					<label for="title">Trail name</label><input type="text"
+						name="title" id="title" />
+				</div>
+				<div>
+					<label for="credentialNumber">Credential number</label><input
+						type="text" name="credentialNumber" id="credentialNumber" />
+				</div>
+				<div>
+					<label for="difficultyBtns">Difficulty</label>
+					<div id="difficultyBtns">
+						<input type="radio" id="difficulty_easy" name="difficulty"
+							value="easy" /><label for="difficulty_easy">Easy</label> <input
+							type="radio" id="difficulty_moderate" name="difficulty"
+							value="moderate" checked="checked" /><label
+							for="difficulty_moderate">Moderate</label> <input type="radio"
+							id="difficulty_hard" name="difficulty" value="hard" /><label
+							for="radio3">Hard</label>
+					</div>
+				</div>
+				<div>
+					<label for="condition">Condition</label> <select name="condition"
+						id="condition">
+						<option value="excellent">Excellent</option>
+						<option value="good">Good</option>
+						<option value="moderate">Moderate</option>
+						<option value="bad">Bad</option>
+						<option value="impossible">Impossible</option>
+					</select>
+				</div>
+				<div>
+					<label for="regionBtns">Region</label>
+					<div id="regionBtns">
+						<input type="radio" id="region_north" name="region" value="north" /><label
+							for="region_north">North</label> <input type="radio"
+							id="region_center" name="region" value="center" checked="checked" /><label
+							for="region_center">Center</label> <input type="radio"
+							id="region_south" name="region" value="south" /><label
+							for="region_south">South</label>
+					</div>
+				</div>
+				<div>
+					<label for="nearestCity">Nearest city</label><input type="text"
+						name="nearestCity" id="nearestCity" />
+				</div>
+				<hr />
+				<div>
+					<label for="tags">Tags</label><input type="text" name="tags"
+						value="tags" />
+				</div>
+				<div>
+					<label for="file">KML File:</label><input type="file" name="file"
+						id="file" />
+				</div>
+			</div>
+			<div id="optionalInfo">
+				<div>
+					<label for="directions">Directions</label>
+					<textarea name="directions" id="directions"></textarea>
+				</div>
+				<div>
+					<label for="recommendations">Recommendations:</label>
+					<textarea name="recommendations" id="recommendations"></textarea>
+				</div>
+				<div>
+					<label for="recommendedSeason">Recommended time of year:</label> <select
+						name="recommendedSeason" id="recommendedSeason">
+						<option value="Any">Any</option>
+						<option value="Spring">Spring</option>
+						<option value="Summer">Summer</option>
+						<option value="Autumn">Autumn</option>
+						<option value="Winter">Winter</option>
+					</select>
+				</div>
+				<div>
+					<label for="link">Links:</label>
+					<div id="linksHolder">
+						<p><input type="text" name="link" value="http://" /></p>
+					</div>
+					<div id="addLinkBtn">Add link</div>
+					<div id="removeLinkBtn">Remove last link</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		$("#trailFormTabs").tabs();
+		
+		$("#addLinkBtn").button()
+		.click(function(){
+			$("#linksHolder").append("<p><input type='text' name='link' value='http:\/\/' /></p>");		
+		});
+		
+		$("#removeLinkBtn").button()
+		.click(function(){
+			$("#linksHolder").find("p:last").remove();		
+		});
+	});
+</script>

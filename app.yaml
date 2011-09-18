@@ -1,0 +1,34 @@
+application: ruinmaps
+version: 1
+api_version: 1
+runtime: python
+
+handlers:
+- url: /js
+  static_dir: static/js
+  
+- url: /css
+  static_dir: static/css
+  
+- url: /img
+  static_dir: static/img
+  
+- url: /mobile/statics
+  static_dir: static/mobile
+  
+- url: /_ah/login_required
+  script: main.py
+
+- url: /point/*
+  script: main.py
+ 
+- url: /point/add
+  script: main.py
+  login: required
+
+- url: /point/update
+  script: main.py
+  login: required
+
+- url: .*
+  script: main.py
