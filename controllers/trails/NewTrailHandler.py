@@ -67,7 +67,7 @@ class NewTrailHandler(blobstore_handlers.BlobstoreUploadHandler):
             logEntry = ActivityLog(user=usr, action="CREATE - Trail")
             logEntry.put()
         
-        self.redirect('/trails2')
+        self.redirect('/trails')
         
         '''if entry:
             

@@ -9,84 +9,102 @@
 			</ul>
 
 			<div id="mandatoryInfo">
-				<div>
-					<label for="title">Trail name</label><input type="text"
-						name="title" id="title" />
-				</div>
-				<div>
-					<label for="credentialNumber">Credential number</label><input
-						type="text" name="credentialNumber" id="credentialNumber" />
-				</div>
-				<div>
-					<label for="difficultyBtns">Difficulty</label>
-					<div id="difficultyBtns">
-						<input type="radio" id="difficulty_easy" name="difficulty"
-							value="easy" /><label for="difficulty_easy">Easy</label> <input
-							type="radio" id="difficulty_moderate" name="difficulty"
-							value="moderate" checked="checked" /><label
-							for="difficulty_moderate">Moderate</label> <input type="radio"
-							id="difficulty_hard" name="difficulty" value="hard" /><label
-							for="radio3">Hard</label>
-					</div>
-				</div>
-				<div>
-					<label for="condition">Condition</label> <select name="condition"
-						id="condition">
-						<option value="excellent">Excellent</option>
-						<option value="good">Good</option>
-						<option value="moderate">Moderate</option>
-						<option value="bad">Bad</option>
-						<option value="impossible">Impossible</option>
-					</select>
-				</div>
-				<div>
-					<label for="regionBtns">Region</label>
-					<div id="regionBtns">
-						<input type="radio" id="region_north" name="region" value="north" /><label
-							for="region_north">North</label> <input type="radio"
-							id="region_center" name="region" value="center" checked="checked" /><label
-							for="region_center">Center</label> <input type="radio"
-							id="region_south" name="region" value="south" /><label
-							for="region_south">South</label>
-					</div>
-				</div>
-				<div>
-					<label for="nearestCity">Nearest city</label><input type="text"
-						name="nearestCity" id="nearestCity" />
-				</div>
-				<hr />
-				<div>
-					<label for="tags">Tags</label><input type="text" name="tags"
-						value="tags" />
-				</div>
-				<div>
-					<label for="file">KML File:</label><input type="file" name="file"
-						id="file" />
-				</div>
+				<table>
+					<tbody>
+						<tr>
+							<td><label for="title">Trail name</label></td>
+							<td><input type="text" name="title" id="title" /></td>
+						</tr>
+						<tr>
+							<td><label for="credentialNumber">Credential number</label>
+							</td>
+							<td><input type="text" name="credentialNumber"
+								id="credentialNumber" /></td>
+						</tr>
+						<tr>
+							<td><label for="difficultyBtns">Difficulty</label></td>
+							<td>
+								<div id="difficultyBtns">
+									<input type="radio" id="difficulty_easy" name="difficulty"
+										value="easy" /><label for="difficulty_easy">Easy</label> <input
+										type="radio" id="difficulty_moderate" name="difficulty"
+										value="moderate" checked="checked" /><label
+										for="difficulty_moderate">Moderate</label> <input type="radio"
+										id="difficulty_hard" name="difficulty" value="hard" /><label
+										for="radio3">Hard</label>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td><label for="condition">Condition</label></td>
+							<td><select name="condition" id="condition">
+									<option value="excellent">Excellent</option>
+									<option value="good">Good</option>
+									<option value="moderate">Moderate</option>
+									<option value="bad">Bad</option>
+									<option value="impossible">Impossible</option>
+							</select></td>
+						</tr>
+						<tr>
+							<td><label for="regionBtns">Region</label></td>
+							<td>
+								<div id="regionBtns">
+									<input type="radio" id="region_north" name="region"
+										value="north" /><label for="region_north">North</label> <input
+										type="radio" id="region_center" name="region" value="center"
+										checked="checked" /><label for="region_center">Center</label>
+									<input type="radio" id="region_south" name="region"
+										value="south" /><label for="region_south">South</label>
+								</div></td>
+						</tr>
+						<tr>
+							<td><label for="nearestCity">Nearest city</label></td>
+							<td><input type="text" name="nearestCity" id="nearestCity" />
+							</td>
+						</tr>
+						<tr>
+							<td><label for="tags">Tags</label></td>
+							<td><input type="text" name="tags" value="tags" /></td>
+						</tr>
+						<tr>
+							<td><label for="file">KML File:</label></td>
+							<td><input type="file" name="file" id="file" /></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 			<div id="optionalInfo">
-				<div>
-					<label for="directions">Directions</label>
-					<textarea name="directions" id="directions"></textarea>
-				</div>
-				<div>
-					<label for="recommendations">Recommendations:</label>
-					<textarea name="recommendations" id="recommendations"></textarea>
-				</div>
-				<div>
-					<label for="recommendedSeason">Recommended time of year:</label> <select
-						name="recommendedSeason" id="recommendedSeason">
-						<option value="Any">Any</option>
-						<option value="Spring">Spring</option>
-						<option value="Summer">Summer</option>
-						<option value="Autumn">Autumn</option>
-						<option value="Winter">Winter</option>
-					</select>
-				</div>
+				<table>
+					<tbody>
+						<tr>
+							<td><label for="directions">Directions</label></td>
+							<td><textarea name="directions" id="directions"></textarea></td>
+						</tr>
+						<tr>
+							<td><label for="recommendations">Recommendations:</label></td>
+							<td><textarea name="recommendations" id="recommendations"></textarea></td>
+						</tr>
+						<tr>
+							<td><label for="recommendedSeason">Recommended time of year:</label></td>
+							<td>
+								<select name="recommendedSeason" id="recommendedSeason">
+									<option value="Any">Any</option>
+									<option value="Spring">Spring</option>
+									<option value="Summer">Summer</option>
+									<option value="Autumn">Autumn</option>
+									<option value="Winter">Winter</option>
+								</select>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<hr/>
 				<div>
 					<label for="link">Links:</label>
 					<div id="linksHolder">
-						<p><input type="text" name="link" value="http://" /></p>
+						<p>
+							<input type="text" name="link" value="http://" />
+						</p>
 					</div>
 					<div id="addLinkBtn">Add link</div>
 					<div id="removeLinkBtn">Remove last link</div>
@@ -97,17 +115,20 @@
 </div>
 
 <script type="text/javascript">
-	$(function(){
+	$(function() {
 		$("#trailFormTabs").tabs();
-		
-		$("#addLinkBtn").button()
-		.click(function(){
-			$("#linksHolder").append("<p><input type='text' name='link' value='http:\/\/' /></p>");		
-		});
-		
-		$("#removeLinkBtn").button()
-		.click(function(){
-			$("#linksHolder").find("p:last").remove();		
+
+		$("#addLinkBtn")
+				.button()
+				.click(
+						function() {
+							$("#linksHolder")
+									.append(
+											"<p><input type='text' name='link' value='http:\/\/' /></p>");
+						});
+
+		$("#removeLinkBtn").button().click(function() {
+			$("#linksHolder").find("p:last").remove();
 		});
 	});
 </script>
