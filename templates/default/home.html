@@ -1,0 +1,53 @@
+<html>
+<head>
+<title>Trilhos da Natureza</title>
+<link rel="stylesheet" class="theme-link" href="/css/default/base.css"
+	type="text/css" media="screen" />
+<style type="text/css">
+	#centerDialog {
+		margin: auto;
+		width: 320px;
+		margin-top: 30px;
+		text-align: right;
+	}
+	
+	#centerDialog a{
+		text-align: right;
+		color: #ccc;
+		font-size: 10px;
+	}
+	
+	#authProviders{
+		padding: 10px;
+		text-align: center;
+		border: 1px solid #ccc;
+		border-radius: 5px;
+	}
+	
+	#authProviders p a{
+		font-size: 14px;
+		color: black;
+		font-weight: bold;
+	}
+	
+	#version{
+		position: relative;
+		top: 48px;
+		right: 256px;
+	}
+	
+</style>
+</head>
+<body style="text-align:center;">
+	<div id="centerDialog">
+		<img id="version" src="/img/version.png" alt="Versão alpha" />
+		<div id="authProviders">
+			<img src="/img/logo.png" alt="Trilhos da natureza" />
+			{% for provider in links %}
+				<p><a href="{{ provider.url }}">Login</a></p>
+			{% endfor %}
+		</div>
+		<a href="https://github.com/felix19350/Nature-Trails/issues">Issue tracker</a>
+	</div>
+</body>
+</html>

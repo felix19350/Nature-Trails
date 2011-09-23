@@ -1,2 +1,73 @@
 <!-- Template for the search component -->
-<div>TODO: Create search tools</div>
+<script type="text/javascript">
+	$(function() {
+		$("#submit").button();
+		$("#showAdvanced").toggle(function() {
+			$("#advanced").show("fast");
+			$(this).text("Hide advanced options");
+		}, function() {
+			$("#advanced").hide("fast");
+			$(this).text("Show advanced options");
+		});
+		$("#mainSearch").focus(function(){
+			$(this).val("");	
+		});
+		$("#advanced").hide("fast");
+		$('#searchForm').ajaxForm({
+			beforeSubmit: function(){
+				$.jnotify('We are working on this at full steam :)', 10000);	
+			}
+		});
+	});
+</script>
+<div>
+	<form action="#" method="get" id="searchForm">
+		<div>
+			<p><label for="mainSearch" class="itemLabel">Basic seach:</label> <input type="text" name="q"
+				id="mainSearch" value="Search trails..."/></p>
+			<p style="text-align: right; font-size: 10px; color: #ccc;">
+				<a id="showAdvanced" href="#" style="">Show advanced options</a>
+			</p>
+		</div>
+		
+		<div id="advanced">
+			<table id="advancedSearchTable">
+				<tbody>
+					<tr>
+						<td style="width: 35%;"><label for="city">Nearest city:</label></td>
+						<td><input type="text" name="city" id="city" value="" />
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="city">Difficulty:</label>
+						</td>
+						<td>
+							<input type="checkbox" id="difficulty_easy" name="difficulty" value="easy" /><label for="difficulty_easy">Easy</label>
+							<input type="checkbox" id="difficulty_moderate" name="difficulty" value="moderate"/><label for="difficulty_moderate">Moderate</label>
+							<input type="checkbox" id="difficulty_hard" name="difficulty" value="hard"/><label for="difficulty_hard">Hard</label>	
+						</td>					
+					</tr>
+					<tr>
+						<td>
+							<label for="city">Condition:</label>
+						</td>
+						<td>
+							<input type="checkbox" name="condition" id="cond_excelent" value="excellent"/><label for="cond_excellent">Excellent</label>
+							<input type="checkbox" name="condition" id="cond_good" value="good"/><label for="cond_good">Good</label>
+							<input type="checkbox" name="condition" id="cond_moderate" value="moderate"/><label for="cond_moderate">Moderate</label>
+							<input type="checkbox" name="condition" id="cond_bad" value="bad"/><label for="cond_bad">Bad</label>
+							<input type="checkbox" name="condition" id="cond_impossible" value="impossible"/><label for="cond_impossible">Impossible</label>
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<div style="margin-top: 20px; text-align: right;">
+			<button type="submit" name="submit" id="submit">
+				<span>Submit</span>
+			</button>
+		</div>
+	</form>
+</div>

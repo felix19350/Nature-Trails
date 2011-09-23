@@ -19,16 +19,9 @@ handlers:
 - url: /_ah/login_required
   script: main.py
 
-- url: /point/*
+- url: /trails/*
   script: main.py
+  login: required
  
-- url: /point/add
-  script: main.py
-  login: required
-
-- url: /point/update
-  script: main.py
-  login: required
-
 - url: .*
   script: main.py

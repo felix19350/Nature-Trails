@@ -49,8 +49,8 @@ class Trail(db.Model):
             #Split each tuple
             coords = tuple.split(',')
             try:
-                #create a GeoPt and do calculations
-                result.append({'latitude': coords[1], 'longitude': coords[0]})
+                #Appends the data to the result. Each point is a tuple with the lat and lon
+                result.append([coords[1],coords[0]])
             except:
                 logging.warning("Could not insert coords:")
                 logging.warning(coords) 

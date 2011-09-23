@@ -1,14 +1,15 @@
 from google.appengine.api import users
 from google.appengine.ext import webapp
+
 '''
     Provides basic support for open id.
 '''
 openIdProviders = (
     'Google.com/accounts/o8/id', # shorter alternative: "Gmail.com"
-    'Yahoo.com',
-    'MySpace.com',
-    'AOL.com',
-    'MyOpenID.com',
+    #'Yahoo.com',
+    #'MySpace.com',
+    #'AOL.com',
+    #'MyOpenID.com',
     # add more here
 )
 

@@ -20,7 +20,7 @@
 
 <script type="text/javascript"
 	src="/js/jQuery/jNotify/jquery.jnotify.js"></script>
-	
+<script type="text/javascript" src="/js/jQuery/jquery.form.js"></script> 
 <script type="text/javascript">
 	var map;
 	function initialize() {
@@ -58,8 +58,8 @@
 		if (numPoints > 0) {
 			for ( var i = 0; i < numPoints; i++) {
 				var temp = jsonTrail.points[i];
-				var geoPt = new google.maps.LatLng(temp.latitude,
-						temp.longitude);
+				var geoPt = new google.maps.LatLng(temp[0],
+						temp[1]);
 				points.push(geoPt);
 			}
 
@@ -74,6 +74,8 @@
 
 			//Set the center of the viewport
 			map.setCenter(points[0]);
+			//Set the zoom level
+			map.setZoom(13);
 		} else {
 			alert("no coordinates");
 		}
@@ -137,44 +139,43 @@
 </head>
 <body>
 	<!-- Main entry point of the application -->
-	<div id="tabContainer" style="float: left; width: 30%; height: 100%; overflow: auto;">
-		<div id="topBar">
+	<div id="tabContainer">
+		<div id="topBar" class="clearfix">
 			<img src="/img/logo.png" alt="Trilhos da natureza" />
+			<div id="actionLinks">
+				<a href="{{ logoutUrl }}">Logout</a>
+			</div>
 		</div>
+
 		<div id="hottestTrails">
 			<ul>
-				<li><a href="#trails">Trails</a></li>
-				<li><a href="#search">Search</a></li>
-				<li><a href="#admin">Admin</a></li>
+				<li><a href="#trails">Trails</a>
+				</li>
+				<li><a href="#search">Search</a>
+				</li>
+				<li><a href="#admin">Admin</a>
+				</li>
 			</ul>
-			
+
 			<div id="trails">
-				<div id="trailsList">
-					{% include "_trails/trailTable.html" %}
-				</div>
-				<div id="trailDetails">
-					{% include "_trails/trailDetails.html" %}
-				</div>
+				<div id="trailsList">{% include "_trails/trailTable.html" %}</div>
+				<div id="trailDetails">{% include "_trails/trailDetails.html" %}</div>
 			</div>
-			
-			<div id="search">
-				{% include "_trails/search.html" %}
-			</div>
-			
-			<div id="admin">
-				{% include "_trails/admin.html" %}
-			</div>
+
+			<div id="search">{% include "_trails/search.html" %}</div>
+
+			<div id="admin">{% include "_trails/admin.html" %}</div>
 
 
 		</div>
 	</div>
-	
+
 	<!-- Map -->
 	<div id="map_canvas" style="float: right; width: 69%; height: 100%"></div>
-	
+
 	<!-- DIALOGS -->
 	<!-- title, credentialNumber, difficulty, condition, region, nearestCity, tags -->
 	{% include "_trails/newTrailDialog.html" %}
-	
+
 </body>
 </html>
