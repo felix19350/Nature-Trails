@@ -19,17 +19,24 @@ class KmlParser:
         xml = ElementTree()      
         xml = xml.parse(kmlFile)
         
-        ns = "http://www.opengis.net/kml/2.2"
-        query = '{%(ns)s}Document/{%(ns)s}Placemark/{%(ns)s}LineString/{%(ns)s}coordinates' % {'ns': ns}
-        
-        coordinates = xml.find(query)
-        if coordinates is not None :
-            nodeText = coordinates.text
-            numberCrunching = self.analizeKml(nodeText)
-            result['extension'] = numberCrunching['extension']
-            result['slope'] = numberCrunching['slope']
-            result['points'] = numberCrunching['filteredPoints']
+        namespaces = ["http://www.opengis.net/kml/2.2", "http://earth.google.com/kml/2.0"]
+        for ns in namespaces: 
+            query = '{%(ns)s}Document/{%(ns)s}Placemark/{%(ns)s}LineString/{%(ns)s}coordinates' % {'ns': ns}
             
+            coordinates = xml.find(query)
+            if coordinates is not None :
+                nodeText = coordinates.text
+                logging.warning("Text for %s", ns)
+                logging.warning(nodeText)
+                
+                numberCrunching = self.analizeKml(nodeText)
+                result['extension'] = numberCrunching['extension']
+                result['slope'] = numberCrunching['slope']
+                result['points'] = numberCrunching['filteredPoints']
+                break
+            else:
+                logging.warning("No points for %s", ns) 
+              
         return result
     
     '''
@@ -37,6 +44,9 @@ class KmlParser:
     '''
     def analizeKml(self, nodeText):
         #the kml standard says that the coordinates are separated by a whitespace
+        #Just in case we transform any linebreaks we find into spaces (some devices
+        #generate KMLs with \n separating each point)
+        nodeText = nodeText.replace('\n', ' ')
         split = nodeText.split(' ')
         logging.warning("Num points: ")
         logging.warning(len(split))
@@ -62,7 +72,7 @@ class KmlParser:
                     extension += d
 
                 lastPointToCalc = currentPoint
-                logging.warning("distance %.8f", d)
+                #logging.warning("distance %.8f", d)
                 
                 curHeight = float(coords[2])
                 slope += curHeight - slope
