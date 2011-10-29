@@ -15,9 +15,9 @@ class TrailsHandler(webapp.RequestHandler):
     def get(self):
         path = os.path.join(os.path.dirname(__file__) + '/../../templates/default/', 'trails.html')
         
-        #get the last 10 trails and show them
+        #get the last 20 trails and show them
         trails = Trail.all().order('creationDate').fetch(20)
-        uploadUrl = blobstore.create_upload_url('/trails/new')
+        uploadUrl = blobstore.create_upload_url('/trail')
         logging.warning("Upload url: " + self.request.get('link'))
         self.response.out.write(template.render(path, {'trails': trails, 'uploadUrl': uploadUrl, 'logoutUrl': users.create_logout_url("/"), 'dialogId': "newTrailDialog", 'formId': "newTrailForm" }))
         

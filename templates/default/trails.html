@@ -1,181 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<link rel="stylesheet" class="theme-link"
-	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css"
-	type="text/css" media="screen" />
-<link rel="stylesheet" class="theme-link" href="/css/default/base.css"
-	type="text/css" media="screen" />
-<link rel="stylesheet" href="/js/jQuery/jNotify/jquery.jnotify-alt.css"
-	type="text/css" />
-<script type="text/javascript"
-	src="http://maps.google.com/maps/api/js?sensor=true">
-	
-</script>
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-<script type="text/javascript"
-	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+{% extends 'base.html' %}
 
-<script type="text/javascript"
-	src="/js/jQuery/jNotify/jquery.jnotify.js"></script>
-<script type="text/javascript" src="/js/jQuery/jquery.form.js"></script> 
+{% block extraHeaders %}
 <script type="text/javascript">
-	var map;
-	function initialize() {
-		var myOptions = {
-			zoom : 8,
-			center : new google.maps.LatLng(38.7166667, -9.13),
-			mapTypeId : google.maps.MapTypeId.TERRAIN,
-			disableDoubleClickZoom : true
-		};
-		map = new google.maps.Map(document.getElementById("map_canvas"),
-				myOptions);
-	}
-
-	/*
-	 * Shows a trail.
-	 * {"slope": 0.0, "rating": 0, "credentialNumber": "232343543", "tags": ["teste", " teste 123435", " wrewrewr"],
-	 *  "difficulty": "hard", "key": "aghydWlubWFwc3ILCxIFVHJhaWwYBww", "creationDate": "2011-07-16T00:51:22.632000",
-	 *  "nearestCity": "Barreiro", "condition": "moderate", "extension": 0.0, "title": "Another trail 111111",
-	 *  "region": "center", "points": [{"latitude": 36.0795495215, "longitude": -112.255078534}, {"latitude": 36.0811708349, "longitude": -112.254927704},
-	 *                                 {"latitude": 36.0839566059, "longitude": -112.256454016}, {"latitude": 36.0851140104, "longitude": -112.258023898}]}
-	 **/
-	function showTrail(jsonTrail) {
-
-		$("#details_trailName").html(jsonTrail.title);
-		$("#details_credentialNum").html(jsonTrail.credentialNumber);
-		$("#details_difficulty").html(jsonTrail.difficulty);
-		$("#details_condition").html(jsonTrail.condition);
-		$("#details_distance").html(jsonTrail.extension);
-		$("#details_slope").html(jsonTrail.slope);
-		$("#details_region").html(jsonTrail.region);
-		$("#details_nearestCity").html(jsonTrail.nearestCity);
-
-		var points = [];
-		var numPoints = jsonTrail.points.length;
-		if (numPoints > 0) {
-			for ( var i = 0; i < numPoints; i++) {
-				var temp = jsonTrail.points[i];
-				var geoPt = new google.maps.LatLng(temp[0],
-						temp[1]);
-				points.push(geoPt);
-			}
-
-			//Draw the trail
-			var trailLine = new google.maps.Polyline({
-				path : points,
-				strokeColor : "#FF0000",
-				strokeOpacity : 1.0,
-				strokeWeight : 2,
-				map : map
-			});
-
-			//Set the center of the viewport
-			map.setCenter(points[0]);
-			//Set the zoom level
-			map.setZoom(13);
-		} else {
-			alert("no coordinates");
-		}
-
-		try{
-			$.ajax({
-				url : "/trails/fetchDetails",
-				data : {
-					id : jsonTrail.key
-				},
-				dataType:'json',
-				success: function(data){
-					showTrailDetails(data)
-				},
-				error: function(){
-					alert("an error occured");
-				}
-			});	
-		}catch(err){
-			
-		}
-		
-		
-		$("#trailsList").hide();
-		$("#trailDetails").show();
-
-	}
-	 
-	function showTrailDetails(jsonDetails){
-		$("#details_directions").html(jsonDetails.directions);
-		$("#details_recomendations").html(jsonDetails.recommendations);
-		$("#details_recommendedSeason").html(jsonDetails.recommendedSeason);
-		
-		var length = jsonDetails.links.length;
-		for(var i = 0; i  < length; i++){
-			$("#details_link").append("<p>"+jsonDetails.links[i]+"</p>");		
-		}
-	}
-
 	$(function() {
-		$("#{{ dialogId }}").dialog({
-			autoOpen : false,
-			modal : true,
-			width : 600,
-			buttons : {
-				"Submit" : function() {
-					$("#newTrailForm").submit();
-					$(this).dialog('close');
-				},
-				"Close" : function() {
-					$(this).dialog('close');
-				}
-			}
-		});
-
 		$("#hottestTrails").tabs();
-		$("#trailDetails").hide();
 		initialize();
 	});
 </script>
-</head>
-<body>
+{% endblock %}
+
+{% block contents %}
 	<!-- Main entry point of the application -->
-	<div id="tabContainer">
-		<div id="topBar" class="clearfix">
-			<img src="/img/logo.png" alt="Trilhos da natureza" />
-			<div id="actionLinks">
-				<a href="{{ logoutUrl }}">Logout</a>
+	<div id="hottestTrails">
+		<ul>
+			<li><a href="#trails">Trails</a>
+			</li>
+			<li><a href="#search">Search</a>
+			</li>
+			<li><a href="#admin">Admin</a>
+			</li>
+		</ul>
+
+		<div id="trails">
+			<div id="trailsList">
+				{% include "_trails/trailTable.html" %}
 			</div>
 		</div>
 
-		<div id="hottestTrails">
-			<ul>
-				<li><a href="#trails">Trails</a>
-				</li>
-				<li><a href="#search">Search</a>
-				</li>
-				<li><a href="#admin">Admin</a>
-				</li>
-			</ul>
+		<div id="search">
+			{% include "_trails/search.html" %}
+		</div>
 
-			<div id="trails">
-				<div id="trailsList">{% include "_trails/trailTable.html" %}</div>
-				<div id="trailDetails">{% include "_trails/trailDetails.html" %}</div>
-			</div>
-
-			<div id="search">{% include "_trails/search.html" %}</div>
-
-			<div id="admin">{% include "_trails/admin.html" %}</div>
-
-
+		<div id="admin">
+			{% include "_trails/admin.html" %}
 		</div>
 	</div>
-
-	<!-- Map -->
-	<div id="map_canvas" style="float: right; width: 69%; height: 100%"></div>
 
 	<!-- DIALOGS -->
 	<!-- title, credentialNumber, difficulty, condition, region, nearestCity, tags -->
 	{% include "_trails/newTrailDialog.html" %}
-
-</body>
-</html>
+{% endblock %}

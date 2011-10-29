@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+<!-- Load the trail onto the google map -->
+
+{% block extraHeaders %}
+<script type="text/javascript">
+	var jsonTrail = $.parseJSON('{{ jsonTrail }}');
+	$(function(){
+		
+		$("#details_trailName").html(jsonTrail.title);
+		$("#details_credentialNum").html(jsonTrail.credentialNumber);
+		$("#details_difficulty").html(jsonTrail.difficulty);
+		$("#details_condition").html(jsonTrail.condition);
+		$("#details_distance").html(jsonTrail.extension);
+		$("#details_slope").html(jsonTrail.slope);
+		$("#details_region").html(jsonTrail.region);
+		$("#details_nearestCity").html(jsonTrail.nearestCity);
+		
+		var points = [];
+		var numPoints = jsonTrail.points.length;
+		var start = new google.maps.LatLng(jsonTrail.startPoint[0], jsonTrail.startPoint[1])
+		
+		//Create placemark for the start of the trail
+		var marker = new google.maps.Marker({
+      		position: start, 
+      		map: map, 
+     		title: jsonTrail.title,
+     		icon: "/img/hiking.png"
+  		}); 
+  		
+		//Set the center of the viewport
+		map.setCenter(start);
+		//Set the zoom level
+		map.setZoom(13);
+		
+		if (numPoints > 0) {
+			for ( var i = 0; i < numPoints; i++) {
+				var temp = jsonTrail.points[i];
+				var geoPt = new google.maps.LatLng(temp[0], temp[1]);
+				points.push(geoPt);
+			}
+
+			//Draw the trail
+			var trailLine = new google.maps.Polyline({
+				path : points,
+				strokeColor : "#FF0000",
+				strokeOpacity : 1.0,
+				strokeWeight : 2,
+				map : map
+			});
+		} else {
+			alert("no coordinates");
+		}
+	});			
+</script>
+{% endblock %}
+
+<!-- Details for a specific trail -->
+{% block contents %}
+<div>
+	<!-- top navigation -->
+	<div class="ui-helper-clearfix">
+		<div class="left">
+			<a href="/trails">Back</a>
+		</div>
+		<div class="right">
+			<div id="updateButton">Update</div>
+			<script type="text/javascript">
+				$("#updateButton").button().click(function(){
+					$("#updateTrailDialog").dialog("open");
+				});			
+			</script>
+		</div>
+		<div class="right">
+			<div id="deleteButton">Delete</div>
+			<script type="text/javascript">
+				$("#deleteButton").button().click(function(){
+					//TODO: add a confirmation dialog.
+					$.ajax({
+						url: "/trail/"+jsonTrail.key,
+						type: "DELETE",
+						success: function(){
+							window.location.href = "/trails";
+						}
+					});
+				});
+			</script>	
+		</div>
+	</div>
+	
+	<fieldset>
+		<legend>Trail information</legend>
+		<p>
+			<span class="itemLabel">Trail:</span>
+			<span id="details_trailName">{{ trail.title }}</span>
+		</p>
+		<p>
+			<span class="itemLabel">Credential:</span>
+			<span id="details_credentialNum">{{ trail.credentialNumber }}</span>
+		</p>
+		<p>
+			<span class="itemLabel">Condition:</span>
+			<span id="details_condition">{{ trail.condition }}</span>
+		</p>
+		<p>
+			<span class="itemLabel">Distance (Km):</span>
+			<span id="details_distance">{{ trail.extension }}</span>
+		</p>
+		<p>
+			<span class="itemLabel">Slope (m):</span>
+			<span id="details_slope">{{ trail.slope }}</span>
+		</p>
+		<p>
+			<span class="itemLabel">Difficulty:</span>
+			<span id="details_difficulty">{{ trail.difficulty }}</span>
+		</p>
+		<p>
+			<span class="itemLabel">Region:</span>
+			<span id="details_region">{{ trail.region }}</span>
+		</p>
+		<p>
+			<span class="itemLabel">Nearest city:</span>
+			<span id="details_nearestCity">{{ trail.nearestCity }}</span>
+		</p>
+	</fieldset>
+	<div id="trailDetails">
+	</div>
+	<script type="text/javascript">
+		$.ajax({
+			url:'/trailDetails',
+			data: {trailId: jsonTrail.key},
+			success: function(data){
+				$("#trailDetails").html(data);	
+			}
+		});
+	</script>
+</div>
+
+<!-- Add the update dialog for this trail -->
+{% include "_trails/editTrailDialog.html" %}
+
+{% endblock %}

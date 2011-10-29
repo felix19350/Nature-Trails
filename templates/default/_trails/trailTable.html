@@ -16,27 +16,8 @@
 			<td>{{ entry.region }}</td>
 			<td>{{ entry.nearestCity }}</td>
 			<td>
-				<div id="viewBtn_{{ entry.key }}">View</div> <script
-					type="text/javascript">
-					$(function() {
-						$("#viewBtn_{{ entry.key }}").button().click(
-							function() {
-								$.ajax({
-									url : "/trails/show",
-									data : {
-										id : "{{ entry.key }}"
-									},
-									dataType : "json",
-									success : function(data) {
-										showTrail(data);
-									},
-									error : function() {
-										alert("error");
-									}
-								});
-						});
-			});
-		</script></td>
+				<a id="viewBtn_{{ entry.key }}" href="/trail/{{ entry.key }}">View</a>
+			</td>
 		</tr>
 		{% endfor %}
 	</tbody>

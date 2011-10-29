@@ -1,18 +1,21 @@
 <!-- Dialog that is shown when the user wishes to create a new trail -->
-<div id="newTrailDialog" title="New location">
-	<form action="{{ uploadUrl }}" method="POST" id="newTrailForm" enctype="multipart/form-data">
+<div id="updateTrailDialog" title="Edit location">
+	<form action="{{ uploadUrl }}" method="POST" id="updateTrailForm" enctype="multipart/form-data">
 			<div id="mandatoryInfo">
 				<table>
 					<tbody>
 						<tr>
 							<td><label for="title">Trail name</label></td>
-							<td><input type="text" name="title" id="title" /></td>
+							<td>
+								<input type="text" name="title" id="title" value="{{ trail.title }}"/>
+							</td>
 						</tr>
 						<tr>
 							<td><label for="credentialNumber">Credential number</label>
 							</td>
-							<td><input type="text" name="credentialNumber"
-								id="credentialNumber" /></td>
+							<td>
+								<input type="text" name="credentialNumber" id="credentialNumber" value="{{ trail.credentialNumber }}"/>
+							</td>
 						</tr>
 						<tr>
 							<td>Difficulty</td>
@@ -24,8 +27,13 @@
 										value="moderate" checked="checked" /><label
 										for="difficulty_moderate">Moderate</label> <input type="radio"
 										id="difficulty_hard" name="difficulty" value="hard" /><label
-										for="difficulty_hard">Hard</label>
+										for="difficulty_hard">Hard</label>							
 								</div>
+								<script type="text/javascript">
+									$(function(){
+										$("#difficultyBtns").children("input[value='{{ trail.difficulty }}']").attr("checked", "checked");
+									});
+								</script>	
 							</td>
 						</tr>
 						<tr>
@@ -36,7 +44,13 @@
 									<option value="moderate">Moderate</option>
 									<option value="bad">Bad</option>
 									<option value="impossible">Impossible</option>
-							</select></td>
+							</select>
+							<script type="text/javascript">
+								$(function(){
+									$("#condition").children("option[value='{{ trail.condition }}']").attr("selected", "selected");
+								});
+							</script>
+							</td>
 						</tr>
 						<tr>
 							<td>Region</td>
@@ -48,18 +62,40 @@
 										checked="checked" /><label for="region_center">Center</label>
 									<input type="radio" id="region_south" name="region"
 										value="south" /><label for="region_south">South</label>
-								</div></td>
+								</div>
+								<script type="text/javascript">
+									$(function(){
+										$("#regionBtns").children("input[value='{{ trail.region }}']").attr("checked", "checked");
+									});
+								</script>								
+								</td>
 						</tr>
 						<tr>
 							<td><label for="nearestCity">Nearest city</label></td>
-							<td><input type="text" name="nearestCity" id="nearestCity" />
+							<td>
+								<input type="text" name="nearestCity" id="nearestCity" value="{{ trail.nearestCity }}"/>
 							</td>
 						</tr>
 						<tr>
 							<td><label for="tags">Tags</label></td>
-							<td><input type="text" name="tags" value="tags" id="tags" /></td>
+							<td><input type="text" name="tags" value="tags" id="tags" value="{{ trail.tags }}"/></td>
 						</tr>
 						<tr>
+							<td colspan="2">
+								<input type="checkbox" name="changeFile" id="changeFile"/>
+								<label for="changeFile">Change file:</label>
+								<script type="text/javascript">
+									$("#changeFile").change(function(){
+										if($(this).is(":checked")){
+											$("#fileUploadRow").show('slow');
+										}else{
+											$("#fileUploadRow").hide('slow');
+										}
+									}).trigger('change');
+								</script>
+							</td>
+						</tr>
+						<tr id="fileUploadRow">
 							<td><label for="file">KML File:</label></td>
 							<td><input type="file" name="file" id="file" /></td>
 						</tr>
@@ -71,22 +107,22 @@
 
 <script type="text/javascript">
 	$(function() {
-	
-		$("#newTrailForm").ajaxForm({
+
+		$("#updateTrailForm").ajaxForm({
 			beforeSubmit: function(){
-				$.jnotify("Creating trail, standby...", true);
+				$.jnotify("Processing update, standby...", true);
 			},
 			success: function(){ window.location.reload(true); },
 			type: "PUT"
-		}); 	
-	
-		$("#newTrailDialog").dialog({
+		}); 
+
+		$("#updateTrailDialog").dialog({
 			autoOpen : false,
 			modal : true,
 			width : 600,
 			buttons : {
 				"Submit" : function() {
-					$("#newTrailForm").submit();
+					$("#updateTrailForm").submit();
 					$(this).dialog('close');
 				},
 				"Close" : function() {
@@ -94,14 +130,14 @@
 				}
 			}
 		});
-	
-		$("#trailFormTabs").tabs();
 
 		$("#addLinkBtn")
 				.button()
-				.click(function() {
+				.click(
+						function() {
 							$("#linksHolder")
-									.append("<p><input type='text' name='link' value='http:\/\/' /></p>");
+									.append(
+											"<p><input type='text' name='link' value='http:\/\/' /></p>");
 						});
 
 		$("#removeLinkBtn").button().click(function() {

@@ -7,15 +7,15 @@ from google.appengine.ext.webapp.util import run_wsgi_app
 from controllers.LoginHandler import LoginHandler
 from controllers.trails.HomeHandler import HomeHandler
 from controllers.trails.TrailsHandler import TrailsHandler
-from controllers.trails.NewTrailHandler import NewTrailHandler
-from controllers.trails.GetTrailHandler import GetTrailHandler
-from controllers.trails.GetTrailDetailsHandler import GetTrailDetailsHandler
+from controllers.trails.TrailHandler import TrailHandler
+from controllers.trails.TrailDetailsHandler import TrailDetailsHandler
 
 application = webapp.WSGIApplication([('/', HomeHandler),
                                       ('/trails', TrailsHandler),
-                                      ('/trails/new', NewTrailHandler),
-                                      ('/trails/show', GetTrailHandler),
-                                      ('/trails/fetchDetails', GetTrailDetailsHandler),
+                                      ('/trail', TrailHandler),
+                                      ('/trail/(.*)', TrailHandler),
+                                      ('/trailDetails', TrailDetailsHandler),
+                                      ('/trailDetails/(.*)', TrailDetailsHandler),
                                       ('/_ah/login_required', LoginHandler)],
                                       debug=True)
 

@@ -26,10 +26,9 @@ class KmlParser:
             coordinates = xml.find(query)
             if coordinates is not None :
                 nodeText = coordinates.text
-                logging.warning("Text for %s", ns)
-                logging.warning(nodeText)
                 
                 numberCrunching = self.analizeKml(nodeText)
+                result['startPoint']= numberCrunching['startPoint']
                 result['extension'] = numberCrunching['extension']
                 result['slope'] = numberCrunching['slope']
                 result['points'] = numberCrunching['filteredPoints']
@@ -49,8 +48,8 @@ class KmlParser:
         nodeText = nodeText.replace('\n', ' ')
         split = nodeText.split(' ')
         logging.warning("Num points: ")
-        logging.warning(len(split))
         
+        startPoint = None
         lastPoint = None
         lastPointToCalc = None
         slope = 0.0
@@ -66,10 +65,13 @@ class KmlParser:
                 currentPoint = GeoPt(float(coords[1]), float(coords[0])) 
                 filter = 0.0
                 
-                #Calculate the total distance, and accumulated slope
                 if(lastPointToCalc is not None):
+                    #Calculate the total distance, and accumulated slope
                     d = self.calculateDistance(currentPoint, lastPointToCalc)
                     extension += d
+                else:
+                    #Set the start point
+                    startPoint = currentPoint
 
                 lastPointToCalc = currentPoint
                 #logging.warning("distance %.8f", d)
@@ -94,7 +96,7 @@ class KmlParser:
         
         logging.warning("Num filtered points: %d", numFiltered)
           
-        return {'slope': slope, 'extension': extension, 'filteredPoints': pointSet}
+        return {'slope': slope, 'extension': extension, 'filteredPoints': pointSet, 'startPoint': startPoint}
     
     '''
     Calculate the distance between two points (in kms) using the haversine method

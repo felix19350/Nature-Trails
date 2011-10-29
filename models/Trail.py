@@ -19,6 +19,7 @@ class Trail(db.Model):
         - rating
         - tags
         - points
+        - startPoint
         - creationDate
         Points are stored as a TextProperty, because they cannot be indexed. 
     '''
@@ -32,6 +33,7 @@ class Trail(db.Model):
     region = db.StringProperty(required=True, choices=set(["north", "center", "south"]))
     nearestCity = db.StringProperty(required=True)
     rating = db.RatingProperty(required=True)
+    startPoint = db.GeoPtProperty(required=True)
     tags = db.ListProperty(str)
     points = db.TextProperty()
     creationDate = db.DateTimeProperty(auto_now_add=True)
@@ -58,7 +60,7 @@ class Trail(db.Model):
         return result
     
     def toJson(self):
-        return simplejson.dumps({'key':str(self.key()), 'credentialNumber': self.credentialNumber,
+        return simplejson.dumps({'key':str(self.key()), 'credentialNumber': self.credentialNumber, 'startPoint': [self.startPoint.lat, self.startPoint.lon],
                                  'title': self.title, 'extension': self.extension, 'slope': '%.2f' % self.slope,
                                  'extension': '%.2f' % self.extension, 'difficulty': self.difficulty, 'condition': self.condition,
                                  'region': self.region, 'nearestCity': self.nearestCity, 'rating': self.rating,
