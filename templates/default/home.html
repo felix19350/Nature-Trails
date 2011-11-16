@@ -1,53 +1,114 @@
+<!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 <title>Trilhos da Natureza</title>
-<link rel="stylesheet" class="theme-link" href="/css/default/base.css"
-	type="text/css" media="screen" />
+<link rel="stylesheet" class="theme-link" href="/css/default/base.css" type="text/css" media="screen" />
 <style type="text/css">
 	#centerDialog {
 		margin: auto;
-		width: 320px;
-		margin-top: 30px;
-		text-align: right;
+		width: 100%;
+		position: absolute;
+		top: 40%;
+		left: 0;
+		background-color: white;
+		border: 1px solid #ccc;
+		height: 180px;
 	}
 	
 	#centerDialog a{
 		text-align: right;
-		color: #ccc;
-		font-size: 10px;
-	}
-	
-	#authProviders{
-		padding: 10px;
-		text-align: center;
-		border: 1px solid #ccc;
-		border-radius: 5px;
-	}
-	
-	#authProviders p a{
-		font-size: 14px;
-		color: black;
+		color: #8bc657;
+		font-size: 24px;
 		font-weight: bold;
+		
 	}
 	
-	#version{
+	#logo{
+		position: absolute;
+		top: -185px;
+		z-index: 10;
+		width: 271px;
+		padding: 0;
+	}
+	
+	#teamEntry{
 		position: relative;
-		top: 48px;
-		right: 256px;
+		top: -80px;
+		right: 0;
+		z-index: 10;
+		width: 160px;
+		padding: 0;
+		text-align: center;
+	}
+	
+	#teamEntry p{
+		text-align: justified;
+		color: #8bc657;
+		font-size: 14px;
+		font-weight: bold; 	
+	}
+	
+	body{
+		background: url('img/img_background.jpg') no-repeat center white;
+		background-size: 100% auto;
+		text-align: left;
+	}
+	
+	footer{
+		background-color: #3b2316;
+		position: absolute;
+		bottom: 0px;
+		left: 0;
+		width: 100%;
+		height: 45px;
+		margin-auto;
+		padding: 10px 0 5px 0;
+	}
+	
+	footer a{
+		color: white;
+	}
+	
+	.siteLimits{
+		width: 950px;
+		margin: auto;
+	}
+	
+	.centered{
+		margin: auto;
+		text-align: center;
 	}
 	
 </style>
 </head>
-<body style="text-align:center;">
+<body>
 	<div id="centerDialog">
-		<img id="version" src="/img/version.png" alt="Versão alpha" />
-		<div id="authProviders">
-			<img src="/img/logo.png" alt="Trilhos da natureza" />
-			{% for provider in links %}
-				<p><a href="{{ provider.url }}">Login</a></p>
-			{% endfor %}
+		<div class="siteLimits">
+			<div id="logo">
+				<img src="/img/logo_trilhos_entrada.png" alt="Trilhos da natureza"/>	
+			</div>
+
+			<div id="teamEntry" class="right">
+				<img src="/img/bt_acesso_equipas.png" alt="Trilhos da natureza"/>		
+				<p>Acesso exclusivo equipas de projecto</p>
+			</div>
+					
+			<div class="centered" style="margin-top: 85px; width: 150px;">
+				{% for provider in links %}
+					<p><a href="{{ provider.url }}">Entrar</a></p>
+				{% endfor %}
+			</div>
+			
+
 		</div>
-		<a href="https://github.com/felix19350/Nature-Trails/issues">Issue tracker</a>
 	</div>
+
+	<footer>
+		<div class="siteLimits">
+			<a href="https://github.com/felix19350/Nature-Trails/issues">Issue tracker</a>
+		</div>
+	</footer>
+	
 </body>
 </html>
