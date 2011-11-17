@@ -25,6 +25,25 @@
 	src="http://maps.google.com/maps/api/js?sensor=true">	
 </script>
 
+	<script type="text/javascript">
+	var map;
+	function initialize() {
+		var myOptions = {
+			zoom : 8,
+			center : new google.maps.LatLng(38.7166667, -9.13),
+			mapTypeId : google.maps.MapTypeId.TERRAIN,
+			disableDoubleClickZoom : true
+		};
+		map = new google.maps.Map(document.getElementById("mapCanvas"),
+				myOptions);
+	}
+
+	$(function() {
+		initialize();
+		$("#tabContainer").height($("#mapCanvas").height());
+	});
+	</script>
+	
 {% block extraHeaders %}{% endblock %}
 
 </head>
@@ -51,26 +70,6 @@
 	<footer>
 		{% include "../_elems/footer.html" %}
 	</footer>
-	
-	<!-- Final Javascript block -->
-	<script type="text/javascript">
-	var map;
-	function initialize() {
-		var myOptions = {
-			zoom : 8,
-			center : new google.maps.LatLng(38.7166667, -9.13),
-			mapTypeId : google.maps.MapTypeId.TERRAIN,
-			disableDoubleClickZoom : true
-		};
-		map = new google.maps.Map(document.getElementById("mapCanvas"),
-				myOptions);
-	}
-
-	$(function() {
-		initialize();
-		$("#tabContainer").height($("#mapCanvas").height());
-	});
-	</script>
-	
+		
 </body>
 </html>
