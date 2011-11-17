@@ -36,7 +36,7 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
                 path = os.path.join(os.path.dirname(__file__) + '/../../templates/default/', 'trail.html')
                 uploadUrlStr = '/trail/' + str(trail.key())
                 uploadUrl = blobstore.create_upload_url(uploadUrlStr)
-                self.response.out.write(template.render(path, {'trail': trail, 'jsonTrail': trail.toJson(), 'uploadUrl': uploadUrl}))
+                self.response.out.write(template.render(path, {'trail': trail, 'jsonTrail': trail.toJson(), 'logoutUrl': users.create_logout_url("/"), 'uploadUrl': uploadUrl}))
                 
         else:
             self.error(404)

@@ -22,15 +22,9 @@ class HomeHandler(webapp.RequestHandler):
     )
     
     def get(self):
-        user = users.get_current_user()
-        if user:
-            '''
-                User is logged in, redirect him to the trails archive
-            '''
-            self.redirect('/trails')
-        else:
-            path = os.path.join(os.path.dirname(__file__) + '/../../templates/default/', 'home.html')
-            self.response.out.write(template.render(path, {"links": self.createProviderLinks()}))            
+        #user = users.get_current_user()
+        path = os.path.join(os.path.dirname(__file__) + '/../../templates/default/', 'home.html')
+        self.response.out.write(template.render(path, {"links": self.createProviderLinks()}))            
                 
            
     def createProviderLinks(self):
@@ -40,7 +34,7 @@ class HomeHandler(webapp.RequestHandler):
             p_url = p.lower()        # "AOL.com" -> "aol.com"
             logging.warning("name: " + p_name)
             logging.warning("name: " + p_url)
-            links.append({"name": p_name, "url": users.create_login_url(federated_identity = p_url, dest_url="/trails")})
+            links.append({"name": p_name, "url": users.create_login_url(federated_identity = p_url, dest_url="/about")})
             
         return links
         
