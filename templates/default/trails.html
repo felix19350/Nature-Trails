@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'mapBase.html' %}
 
 {% block extraHeaders %}
 <script type="text/javascript">
@@ -11,31 +11,32 @@
 
 {% block contents %}
 	<!-- Main entry point of the application -->
-	<div id="hottestTrails">
-		<ul>
-			<li><a href="#trails">Trails</a>
-			</li>
-			<li><a href="#search">Search</a>
-			</li>
-			<li><a href="#admin">Admin</a>
-			</li>
-		</ul>
 
-		<div id="trails">
-			<div id="trailsList">
-				{% include "_trails/trailTable.html" %}
+		<div id="hottestTrails">
+			<ul>
+				<li><a href="#trails">Trails</a>
+				</li>
+				<li><a href="#search">Search</a>
+				</li>
+				<li><a href="#admin">Admin</a>
+				</li>
+			</ul>
+
+			<div id="trails">
+				<div id="trailsList">
+					{% include "_trails/trailTable.html" %}
+				</div>
 			</div>
-		</div>
 
-		<div id="search">
-			{% include "_trails/search.html" %}
-		</div>
+			<div id="search">
+				{% include "_trails/search.html" %}
+			</div>
 
-		<div id="admin">
-			{% include "_trails/admin.html" %}
-		</div>
-	</div>
-
+			<div id="admin">
+				{% include "_trails/admin.html" %}
+			</div>
+		</div>		
+	
 	<!-- DIALOGS -->
 	<!-- title, credentialNumber, difficulty, condition, region, nearestCity, tags -->
 	{% include "_trails/newTrailDialog.html" %}

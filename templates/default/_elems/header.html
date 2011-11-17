@@ -1,0 +1,13 @@
+<!-- Template for the header -->
+
+	<!-- Allowed links: see StaticHandler -->
+	<nav class="siteLimits">
+		<a href="/about">Início</a>
+		<a href="/trails">Trilhos</a>
+		<a href="/resources">Recursos</a>
+		<a href="/regulation">Regulamento</a>
+		<a href="/teams">Equipas</a>
+		{% if requiresLogout %}
+			<a href="{{ logoutUrl }}">Terminar Sessão</a>
+		{% endif %}
+	</nav>

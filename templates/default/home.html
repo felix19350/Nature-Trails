@@ -3,84 +3,10 @@
 <head>
 <meta charset="utf-8">
 <title>Trilhos da Natureza</title>
-<link rel="stylesheet" class="theme-link" href="/css/default/base.css" type="text/css" media="screen" />
-<style type="text/css">
-	#centerDialog {
-		margin: auto;
-		width: 100%;
-		position: absolute;
-		top: 40%;
-		left: 0;
-		background-color: white;
-		border: 1px solid #ccc;
-		height: 180px;
-	}
-	
-	#centerDialog a{
-		text-align: right;
-		color: #8bc657;
-		font-size: 24px;
-		font-weight: bold;
-		
-	}
-	
-	#logo{
-		position: absolute;
-		top: -185px;
-		z-index: 10;
-		width: 271px;
-		padding: 0;
-	}
-	
-	#teamEntry{
-		position: relative;
-		top: -80px;
-		right: 0;
-		z-index: 10;
-		width: 160px;
-		padding: 0;
-		text-align: center;
-	}
-	
-	#teamEntry p{
-		text-align: justified;
-		color: #8bc657;
-		font-size: 14px;
-		font-weight: bold; 	
-	}
-	
-	body{
-		background: url('img/img_background.jpg') no-repeat center white;
-		background-size: 100% auto;
-		text-align: left;
-	}
-	
-	footer{
-		background-color: #3b2316;
-		position: absolute;
-		bottom: 0px;
-		left: 0;
-		width: 100%;
-		height: 45px;
-		margin-auto;
-		padding: 10px 0 5px 0;
-	}
-	
-	footer a{
-		color: white;
-	}
-	
-	.siteLimits{
-		width: 950px;
-		margin: auto;
-	}
-	
-	.centered{
-		margin: auto;
-		text-align: center;
-	}
-	
-</style>
+
+<link rel="stylesheet/less" type="text/css" href="/css/default/base.less">
+<script src="/js/lesscss/less-1.1.5.js" type="text/javascript"></script>
+
 </head>
 <body>
 	<div id="centerDialog">
@@ -105,9 +31,7 @@
 	</div>
 
 	<footer>
-		<div class="siteLimits">
-			<a href="https://github.com/felix19350/Nature-Trails/issues">Issue tracker</a>
-		</div>
+		{% include "_elems/footer.html" %}
 	</footer>
 	
 </body>
