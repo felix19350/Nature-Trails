@@ -24,7 +24,8 @@ class HomeHandler(webapp.RequestHandler):
     def get(self):
         #user = users.get_current_user()
         path = os.path.join(os.path.dirname(__file__) + '/../../templates/default/', 'home.html')
-        self.response.out.write(template.render(path, {"links": self.createProviderLinks()}))            
+        self.response.out.write(template.render(path, {}))  
+        #self.response.out.write(template.render(path, {"links": self.createProviderLinks()}))            
                 
            
     def createProviderLinks(self):
