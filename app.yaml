@@ -12,17 +12,18 @@ handlers:
   
 - url: /img
   static_dir: static/img
+
+- url: /docs
+  static_dir: static/docs    
     
 - url: /_ah/login_required
   script: main.py
 
 - url: /trails/*
   script: main.py
-  login: required
   
 - url: /trail/*
-  script: main.py
-  login: required  
+  script: main.py 
  
 - url: .*
   script: main.py

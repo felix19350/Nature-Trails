@@ -40,7 +40,10 @@
 
 	$(function() {
 		initialize();
-		$("#tabContainer").height($("#mapCanvas").height());
+		$("window").resize(function(){
+			$("#tabContainer, #mapCanvas").height($("body").height() - 20 - $("header").height() - $("footer").height());
+		});		
+		
 	});
 	</script>
 	
@@ -68,7 +71,7 @@
 	</div>
 	
 	<footer>
-		{% include "../_elems/footer.html" %}
+		{% include "_elems/footer.html" %}
 	</footer>
 		
 </body>

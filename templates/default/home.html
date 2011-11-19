@@ -4,8 +4,20 @@
 <meta charset="utf-8">
 <title>Trilhos da Natureza</title>
 
+<link rel="stylesheet" class="theme-link"
+	href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/base/jquery-ui.css"
+	type="text/css" media="screen" />
+<link rel="stylesheet" href="/js/jQuery/jNotify/jquery.jnotify-alt.css"
+	type="text/css" />
+
 <link rel="stylesheet/less" type="text/css" href="/css/default/base.less">
 <script src="/js/lesscss/less-1.1.5.js" type="text/javascript"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+<script type="text/javascript"
+	src="/js/jQuery/jNotify/jquery.jnotify.js"></script>
 
 </head>
 <body>
@@ -21,9 +33,7 @@
 			</div>
 					
 			<div class="centered" style="margin-top: 85px; width: 150px;">
-				{% for provider in links %}
-					<p><a href="{{ provider.url }}">Entrar</a></p>
-				{% endfor %}
+				<p><a href="/about">Entrar</a></p>
 			</div>
 			
 
@@ -34,5 +44,10 @@
 		{% include "_elems/footer.html" %}
 	</footer>
 	
+	<script type="text/javascript">
+		$(function(){
+			$.jnotify("Site em desenvolvimento...", true);
+		});
+	</script>	
 </body>
 </html>

@@ -4,6 +4,7 @@
 @defaultBrown: #3b2316;
 @defaultTextColor: #333333;
 @lightTextColor: white;
+@darkTextColor: #666;
 
 @defaultBackgroundColor: white;
 @secondaryBackgroundColor: #dedede;
@@ -13,6 +14,7 @@
 @defaultBorder: 1px solid @borderColor;
 @defaultBorderRadius: 4px;
 
+@smallFontSize: 10px;
 @defaultFontSize: 12px;
 @largeFontSize: 16px;
 @extraLargeFontSize: 24px;
@@ -24,27 +26,33 @@ html {
 }
 
 body {
-	height: 100%;
+	height: 99%;
 	margin: 0px;
 	padding: 0px;
-	background: url('/img/img_background.jpg') no-repeat center @defaultBackgroundColor;
-	background-size: 100% auto;
+	background: url('/img/img_background.jpg') no-repeat center @defaultBrown;
+	background-size: auto 100%;
 	text-align: left;
 	font-size: @defaultFontSize;
 	font-color: @defaultTextColor;
 	font-family: verdana, sans-serif;
 }
 
+img{
+	border: none;
+}
 
+a{
+	color: @defaultGreen;
+}
 	
 footer{
 	background-color: @defaultBrown;
 	position: absolute;
 	bottom: 0px;
 	left: 0;
+	height: 80px;
 	width: 100%;
-	height: 45px;
-	padding: 10px 0 5px 0;
+	padding: 5px 0 5px 0;
 	
 	a{
 		.navLink;
@@ -58,7 +66,7 @@ footer{
 
 header{
 	background-color: @defaultGreen;
-	height: 55px;
+	height: 35px;
 	width: 100%;
 	margin: 0;
 }
@@ -103,6 +111,11 @@ legend{
 	margin-right: 10px;
 }
 
+.smallText{
+	color: @darkTextColor;
+	font-size: @smallFontSize;
+}
+
 .navLinkHover(@txtColor:  @defaultTextColor){
 	color: @txtColor;
 }
@@ -131,8 +144,7 @@ legend{
 }
 
 .siteContentHeight{
-	min-height: 500px;
-	max-height: 90%;
+	height: 480px;
 }
 
 .centered{
@@ -152,6 +164,16 @@ legend{
 	height: 0;
 	clear: both;
 	visibility: hidden;
+}
+
+.cleared{
+	clear: both;
+}
+
+.contentText{
+	margin: auto;
+	width: 50%;
+	padding-left: 25px;
 }
 
 .baseTable{
@@ -184,8 +206,8 @@ legend{
 /* ids */
 
 #baseContents{
-	padding: 10px 0 10px 0;
-	margin: -20px 0 10px 0;
+	padding: 0px 0 10px 0;
+	margin: 0px 0 10px 0;
 	.defaultBackground;
 	.siteContentHeight;
 }
@@ -214,12 +236,13 @@ legend{
 	width: 30%;
 	overflow: auto;
 	.siteContentHeight;
-	padding: 5px;
+	padding: 0;
 }
 
 #tobBar {
 	.defaultBackground;
 	width: 100%;
+	padding-top: 5px;
 }
 
 #actionLinks{
@@ -239,6 +262,10 @@ legend{
 		}
 	}
 	
+}
+
+#baseContents{
+	overflow: auto;
 }
 	
 #centerDialog {
