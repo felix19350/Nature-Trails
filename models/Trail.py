@@ -2,7 +2,6 @@ import logging
 
 from google.appengine.ext import db
 from django.utils import simplejson
-from google.appengine.api.datastore_types import GeoPt
 
 class Trail(db.Model):
     '''
@@ -42,28 +41,40 @@ class Trail(db.Model):
         return "%s (%s): %s (%s): %f" % (self.title, self.credentialNumber, self.region, self.nearestCity, self.extension)
     
     
+    def toMap(self, showPoints = True):
+        result = {'key':str(self.key()), 'credentialNumber': self.credentialNumber, 'startPoint': [self.startPoint.lat, self.startPoint.lon],
+                  'title': self.title, 'extension': self.extension, 'slope': '%.2f' % self.slope,
+                  'extension': '%.2f' % self.extension, 'difficulty': self.difficulty, 'condition': self.condition,
+                  'region': self.region, 'nearestCity': self.nearestCity, 'rating': self.rating,
+                  'tags': self.tags, 'creationDate': self.creationDate.isoformat()} 
+        if(showPoints):
+            result["points"] = self._parsePointText()
+            
+        return result
+                
+    def toJson(self, showPoints = True):
+        return simplejson.dumps(self.toMap(showPoints))
+    
     def _parsePointText(self):
         result = []
         #the kml standard says that the coordinates are separated by a whitespace
         split = self.points.split(' ')
+        t = None
         
-        for tuple in split:
+        for t in split:
             #Split each tuple
-            coords = tuple.split(',')
+            coords = t.split(',')
             try:
-                #Appends the data to the result. Each point is a tuple with the lat and lon
-                result.append([coords[1],coords[0]])
+                #Appends the data to the result. Each point is a tuple with the lat, lon and altitude
+                result.append([coords[1], coords[0], coords[2]])
             except:
                 logging.warning("Could not insert coords:")
                 logging.warning(coords) 
-                
+        #Hack due to badly un-escaped string        
+        if(len(result) > 0):
+            result.pop()
+            
         return result
-    
-    def toJson(self):
-        return simplejson.dumps({'key':str(self.key()), 'credentialNumber': self.credentialNumber, 'startPoint': [self.startPoint.lat, self.startPoint.lon],
-                                 'title': self.title, 'extension': self.extension, 'slope': '%.2f' % self.slope,
-                                 'extension': '%.2f' % self.extension, 'difficulty': self.difficulty, 'condition': self.condition,
-                                 'region': self.region, 'nearestCity': self.nearestCity, 'rating': self.rating,
-                                 'tags': self.tags, 'points': self._parsePointText(), 'creationDate': self.creationDate.isoformat()})
+  
     
         

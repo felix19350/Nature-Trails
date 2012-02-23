@@ -13,6 +13,12 @@ from models.ActivityLog import ActivityLog
 
 '''
 Gets the trail's details. The response is the object encoded as json, or a 404 if the id does not exist.
+Supports the following methods:
+
+GET     - Fetches the details of a trail
+POST    - Creates the details for an existing trail
+PUT     - Updates an existing trail details
+DELETE  - Deletes an existing trail details
 '''
 
 class TrailDetailsHandler(webapp.RequestHandler):
@@ -43,7 +49,14 @@ class TrailDetailsHandler(webapp.RequestHandler):
                             
     '''
         Handler for the POST method.
-        Creates new trail details object for a given trail if no trailDetailsId parameter is given.
+        Creates new trail details object for a given trail if no trailDetailsId parameter is given. If a trailDetailsId parameter is
+        used then updates the trail.
+
+        @param trailId - the id of the parent trail
+        @param recommendedSeason
+        @param recommendations
+        @param directions
+        @param links
     '''
     def post(self, trailDetailsId=None):
         try:
@@ -75,11 +88,24 @@ class TrailDetailsHandler(webapp.RequestHandler):
     '''
         Handler for the PUT method
         Updates an existing trail details object
+
+        @param trailDetailsId - the id of the trail to update
+        @param trailId - the id of the parent trail
+        @param recommendedSeason
+        @param recommendations
+        @param directions
+        @param links        
     ''' 
     def put(self, trailDetailsId):
         self._updateTrailDetails(trailDetailsId)        
     
-    
+
+    '''
+        Handler for the DELETE method
+        Deletes an existing trail details method
+
+        @param trailDetailsId - the id of the trail to delete      
+    '''     
     def delete(self, trailDetailsId):
         try:
             trailDetails = TrailDetails.get(trailDetailsId) 

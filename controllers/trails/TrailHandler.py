@@ -16,18 +16,32 @@ from django.utils import simplejson
 
 '''
     REST Like controller for trails
+
+    GET     - Fetches a trail
+    POST    - Creates an existing trail
+    PUT     - Updates an existing trail
+    DELETE  - Deletes an existing trail 
 '''
 class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
 
     '''
-        Handler for the GET method
-        Returns the trail as a JSON Object
+        Handler for the GET method. Fetches a single trail.
+        @param trailId - The id of the trail to fetch
+        @param remote - optional - support for JSONP
+        @param callback - optional - support for JSONP
+        
+        @return the trail as a JSON Object, JSONP is also supported. If the accept header is not "application/json"
+        renders the view associated with a trail. 
     '''
     def get(self, trailId): 
         trail = Trail.get(trailId)
         if(trail is not None):
-            logging.warning("Accept header: %s", self.request.headers['accept'])
-            if(self.request.headers['accept'] == "application/json"):
+            if(self.request.get("remote") and self.request.get("callback")):
+                #If the client provides a "callback" argument, then we assume we have a JSONP call.
+                jsonpContent = self.request.get("callback") + "(" + trail.toJson() + ")"
+                self.response.headers["Content-Type"] = "text/javascript"
+                self.response.out.write(jsonpContent)
+            elif(self.request.headers['accept'] in ["application/json", "text/json"]): 
                 #If the client requests json them encode the trail as JSON and send it over the wire
                 self.response.headers["Content-Type"] = "application/json"
                 self.response.out.write(trail.toJson())
@@ -43,14 +57,26 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
      
 
     '''
-        Handler for the POST method
+        Handler for the POST method. The requests must be encoded with multipart/form-data
         
         A new location is added to the database if the trailId parameter is not set.
         The form is expected to have the following fields:
-        title, credentialNumber, difficulty, condition, region, nearestCity, tags.
+
+        @param trailId - optional, if present updates the trail
+        @param title
+        @param credentialNumber
+        @param difficulty
+        @param condition
+        @param region
+        @param nearestCity
+        @param tags
+        @param file - the KML file
         
         If the following parameters are present, a TrailDetails entry is added:
-        recommendedSeason, recommendations, directions, links 
+        @param recommendedSeason - optional
+        @param recommendations - optional
+        @param directions - optional
+        @param links - optional 
     '''
     def post(self, trailId = None):
         
@@ -98,16 +124,27 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
             self._updateTrail(trailId)
 
     '''
-        Handler for the PUT method
+        Handler for the PUT method. The requests must be encoded with multipart/form-data
         Allows for the update of a trail and associated information.
+
+        @param trailId
+        @param title
+        @param credentialNumber
+        @param difficulty
+        @param condition
+        @param region
+        @param nearestCity
+        @param tags
+        @param file - the KML file       
     '''
     def put(self, trailId):
         self._updateTrail(trailId)
 
 
     '''
-        Handler for the delete method
-        Deletes a trail and associated data
+        Handler for the DELETE method.
+        Deletes a trail and associated data.
+        @param trailId
     '''      
     def delete(self, trailId):
         try:
