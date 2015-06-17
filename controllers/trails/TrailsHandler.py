@@ -1,9 +1,11 @@
 import os
+import sys
 import logging
+import webapp2
 
+from webapp2_extras import jinja2
+from controllers.trails.BaseHandler import BaseHandler
 from google.appengine.ext import blobstore
-from google.appengine.ext.webapp import template
-from google.appengine.ext import webapp
 from google.appengine.api import users
 from models.Trail import Trail
 from django.utils import simplejson
@@ -13,14 +15,14 @@ Entry point for the desktop application.
 
 '''
 
-class TrailsHandler(webapp.RequestHandler):
+class TrailsHandler(BaseHandler):
 
     defaultNum = 20
 
     def get(self):
         #Get the latest N trails
         numTrails = self.request.get("n") if self.request.get("n") else self.defaultNum
-        trails = Trail.all().order('creationDate').fetch(numTrails)
+        trails = Trail.query().order(Trail.creationDate)
         
         if(self.request.get("remote") and self.request.get("callback")):
             #JSONP request. Render the content as json and wrap it in a function call
@@ -35,12 +37,13 @@ class TrailsHandler(webapp.RequestHandler):
             self.response.out.write(trails)
         else:
             #render the default view
-            path = os.path.join(os.path.dirname(__file__) + '/../../templates/default/', 'trails.html')
+            path = os.path.join('default/', 'trails.html')
             uploadUrl = blobstore.create_upload_url('/trail')
             logging.warning("Upload url: " + self.request.get('link'))
-            self.response.out.write(template.render(path, {'trails': trails, 'uploadUrl': uploadUrl, 'logoutUrl': users.create_logout_url("/"), 'dialogId': "newTrailDialog", 'formId': "newTrailForm" }))
+            context = {'trails': trails, 'uploadUrl': uploadUrl, 'logoutUrl': users.create_logout_url("/"), 'dialogId': "newTrailDialog", 'formId': "newTrailForm" }
+            self.render_template(path, **context)
 
     def _jsonEncoder(self, trail):
-        return trail.toMap(False)   	
+        return trail.toMap(False)
 
 

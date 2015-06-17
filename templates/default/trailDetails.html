@@ -1,6 +1,6 @@
 	<div class="ui-helper-clearfix">
 		<div class="right">
-			<div id="trailDetailsEdit">Edit details</div>
+			<div id="trailDetailsEdit">Editar detalhes</div>
 		</div>
 		<script type="text/javascript">
 			$("#trailDetailsEdit").button().click(function(){
@@ -10,23 +10,23 @@
 	</div>
 	{% if trailDetails %}
 	<fieldset>
-		<legend>Additional information</legend>
+		<legend>Informação adicional</legend>
 		
 		<table>
 			<tr>
-				<td class="itemLabel">Recommendations</td>
+				<td class="itemLabel">Recomendações</td>
 				<td>
 					<div id="details_recomendations">{{ trailDetails.recommendations }}</div>
 				</td>
 			</tr>
 			<tr>
-				<td class="itemLabel">Directions</td>
+				<td class="itemLabel">Direcções</td>
 				<td>
 					<div id="details_directions">{{ trailDetails.directions }}</div>
 				</td>
 			</tr>
 			<tr>
-				<td class="itemLabel">Recommended Season</td>
+				<td class="itemLabel">Época do ano recomendada</td>
 				<td>
 					<div id="details_recommendedSeason">{{ trailDetails.recommendedSeason }}</div>
 				</td>
@@ -45,8 +45,8 @@
 	</fieldset>
 	{% else %}
 		<div>
-			<p>This trail has no additional information. Use the "Edit details" button above to add new information.</p>
+			<p>Este trilho ainda não tem informação adicional.</p>
 		</div>
 	{% endif %}
 	
-	{% include "_trailDetails/editTrailDetailsDialog.html" %}
+	{% include "default/_trailDetails/editTrailDetailsDialog.html" %}

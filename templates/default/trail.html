@@ -1,13 +1,13 @@
-{% extends 'mapBase.html' %}
+{% extends 'default/mapBase.html' %}
 <!-- Load the trail onto the google map -->
 
 {% block extraHeaders %}
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false"></script>
 <script type="text/javascript">
-	google.load("visualization", "1", {packages:["corechart"]});
-
+{% autoescape off %}
 	var jsonTrail = $.parseJSON('{{ jsonTrail }}');
+	{% endautoescape %}
 	$(function(){
 		
 		$("#details_trailName").html(jsonTrail.title);
@@ -64,31 +64,6 @@
 				strokeWeight : 2,
 				map : map
 			});
-			
-			//Update the data table for the height
-			
-			var data = new google.visualization.DataTable();
-        	data.addColumn('number', 'Distance');
-        	data.addColumn('number', 'Height');
-        	
-		var options = {
-          width: 250, height: 175,
-          title: 'Height variation',
-          pointSize: 0,
-          lineWidth: 1,
-          legend:{
-          	position: "bottom"
-          },
-          vAxis:{
-          	title: "Height (m)"
-          },
-          hAxis:{
-          	title: "Distance (m)"
-          }
-        };
-			var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
-			data.addRows(rows);
-        	chart.draw(data, options);
 		} else {
 			alert("no coordinates");
 		}
@@ -129,10 +104,10 @@
 	<!-- top logo -->
 	<div class="ui-helper-clearfix">
 		<div class="left">
-			<a href="/trails">Back</a>
+			<a href="/trails">Voltar</a>
 		</div>
 		<div class="right">
-			<div id="updateButton">Update</div>
+			<div id="updateButton">Editar</div>
 			<script type="text/javascript">
 				$("#updateButton").button().click(function(){
 					$("#updateTrailDialog").dialog("open");
@@ -140,57 +115,43 @@
 			</script>
 		</div>
 		<div class="right">
-			<div id="deleteButton">Delete</div>
+			<div id="deleteButton">Apagar</div>
 			<script type="text/javascript">
 				$("#deleteButton").button().click(function(){
 					alert("The delete operation is currently disabled.");
 					//TODO: add a confirmation dialog.
-					/*$.ajax({
+					$.ajax({
 						url: "/trail/"+jsonTrail.key,
 						type: "DELETE",
 						success: function(){
 							window.location.href = "/trails";
 						}
-					});*/
+					});
 				});
 			</script>	
 		</div>
 	</div>
 	
 	<fieldset>
-		<legend>Trail information</legend>
+		<legend>Informação do trilho</legend>
 		<p>
-			<span class="itemLabel">Trail:</span>
-			<span id="details_trailName">{{ trail.title }}</span>
+			<span class="itemLabel">Localidade:</span>
+			<span id="details_nearestCity">{{ trail.nearestCity }}</span>
 		</p>
 		<p>
-			<span class="itemLabel">Credential:</span>
-			<span id="details_credentialNum">{{ trail.credentialNumber }}</span>
-		</p>
-		<p>
-			<span class="itemLabel">Condition:</span>
-			<span id="details_condition">{{ trail.condition }}</span>
-		</p>
-		<p>
-			<span class="itemLabel">Distance (Km):</span>
+			<span class="itemLabel">Extensão (Km):</span>
 			<span id="details_distance">{{ trail.extension }}</span>
 		</p>
 		<p>
-			<span class="itemLabel">Slope (m):</span>
-			<span id="details_slope">{{ trail.slope }}</span>
+			<span class="itemLabel">Duração prevista (horas):</span>
+			<span id="details_region">{{ trail.timeDurationHours }}</span>
 		</p>
 		<p>
-			<span class="itemLabel">Difficulty:</span>
-			<span id="details_difficulty">{{ trail.difficulty }}</span>
+			<span class="itemLabel">Carta militar:</span>
+			<span id="details_difficulty">{{ trail.militaryMap }}</span>
 		</p>
-		<p>
-			<span class="itemLabel">Region:</span>
-			<span id="details_region">{{ trail.region }}</span>
-		</p>
-		<p>
-			<span class="itemLabel">Nearest city:</span>
-			<span id="details_nearestCity">{{ trail.nearestCity }}</span>
-		</p>
+
+
 	</fieldset>
 	
 	<div id="trailDetails">
@@ -209,6 +170,6 @@
 </div>
 
 <!-- Add the update dialog for this trail -->
-{% include "_trails/editTrailDialog.html" %}
+{% include "default/_trails/editTrailDialog.html" %}
 
 {% endblock %}

@@ -1,7 +1,6 @@
 import os
 import logging
-from google.appengine.ext.webapp import template
-from google.appengine.ext import webapp
+from controllers.trails.BaseHandler import BaseHandler
 from google.appengine.api import users
 
 '''
@@ -9,7 +8,7 @@ from google.appengine.api import users
     archive, otherwise he is 
 '''
 
-class HomeHandler(webapp.RequestHandler):
+class HomeHandler(BaseHandler):
     
     #default open id providers. For each of these a link should be created
     openIdProviders = (
@@ -20,11 +19,14 @@ class HomeHandler(webapp.RequestHandler):
         #'MyOpenID.com',
         # add more here
     )
-    
+
+   
+
     def get(self):
         #user = users.get_current_user()
-        path = os.path.join(os.path.dirname(__file__) + '/../../templates/default/', 'home.html')
-        self.response.out.write(template.render(path, {}))  
+        path = os.path.join('default/', 'home.html')
+        context = {}
+        self.render_template(path, **context)
         #self.response.out.write(template.render(path, {"links": self.createProviderLinks()}))            
                 
            

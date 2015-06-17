@@ -28,7 +28,7 @@
 <body>
 	<!-- Main entry point of the application -->
 	<header>
-		{% include "../_elems/header.html" %}	
+		{% include "default/_elems/header.html" %}	
 	</header>
 	
 	<div id="baseContents">
@@ -38,16 +38,15 @@
 	</div>
 	
 	<footer>
-		{% include "../_elems/footer.html" %}
+		{% include "default/_elems/footer.html" %}
 	</footer>
 
 	<script type="text/javascript">
 		$(function(){
-			$.jnotify("Site em desenvolvimento...", true);
 			$("window").resize(function(){
 				$("#baseContents").height($("body").height() - 20 - $("header").height() - $("footer").height());
 			});
 		});
-	</script>	
+	</script>
 </body>
 </html>

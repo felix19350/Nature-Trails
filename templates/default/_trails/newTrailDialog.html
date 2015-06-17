@@ -5,59 +5,24 @@
 				<table>
 					<tbody>
 						<tr>
-							<td><label for="title">Trail name</label></td>
+							<td><label for="title">Trilho</label></td>
 							<td><input type="text" name="title" id="title" /></td>
 						</tr>
 						<tr>
-							<td><label for="credentialNumber">Credential number</label>
-							</td>
-							<td><input type="text" name="credentialNumber"
-								id="credentialNumber" /></td>
-						</tr>
-						<tr>
-							<td>Difficulty</td>
-							<td>
-								<div id="difficultyBtns">
-									<input type="radio" id="difficulty_easy" name="difficulty"
-										value="easy" /><label for="difficulty_easy">Easy</label> <input
-										type="radio" id="difficulty_moderate" name="difficulty"
-										value="moderate" checked="checked" /><label
-										for="difficulty_moderate">Moderate</label> <input type="radio"
-										id="difficulty_hard" name="difficulty" value="hard" /><label
-										for="difficulty_hard">Hard</label>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td><label for="condition">Condition</label></td>
-							<td><select name="condition" id="condition">
-									<option value="excellent">Excellent</option>
-									<option value="good">Good</option>
-									<option value="moderate">Moderate</option>
-									<option value="bad">Bad</option>
-									<option value="impossible">Impossible</option>
-							</select></td>
-						</tr>
-						<tr>
-							<td>Region</td>
-							<td>
-								<div id="regionBtns">
-									<input type="radio" id="region_north" name="region"
-										value="north" /><label for="region_north">North</label> <input
-										type="radio" id="region_center" name="region" value="center"
-										checked="checked" /><label for="region_center">Center</label>
-									<input type="radio" id="region_south" name="region"
-										value="south" /><label for="region_south">South</label>
-								</div></td>
-						</tr>
-						<tr>
-							<td><label for="nearestCity">Nearest city</label></td>
+							<td><label for="nearestCity">Localidade</label></td>
 							<td><input type="text" name="nearestCity" id="nearestCity" />
 							</td>
 						</tr>
 						<tr>
-							<td><label for="tags">Tags</label></td>
-							<td><input type="text" name="tags" value="tags" id="tags" /></td>
+							<td><label for="militaryMap">Carta militar</label>
+							</td>
+							<td><input type="text" name="militaryMap"
+								id="militaryMap" /></td>
+						</tr>
+						<tr>
+							<td><label for="nearestCity">Duração prevista (horas)</label></td>
+							<td><input type="text" name="timeDurationHours" id="timeDurationHours" />
+							</td>
 						</tr>
 						<tr>
 							<td><label for="file">KML File:</label></td>
@@ -96,16 +61,5 @@
 		});
 	
 		$("#trailFormTabs").tabs();
-
-		$("#addLinkBtn")
-				.button()
-				.click(function() {
-							$("#linksHolder")
-									.append("<p><input type='text' name='link' value='http:\/\/' /></p>");
-						});
-
-		$("#removeLinkBtn").button().click(function() {
-			$("#linksHolder").find("p:last").remove();
-		});
 	});
 </script>

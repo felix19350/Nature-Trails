@@ -22,33 +22,50 @@
 
 </head>
 <body>
+
+	<!-- Main entry point of the application -->
+	<header>
+		{% include "default/_elems/header.html" %}
+	</header>
+
 	<div id="centerDialog">
-		<div class="siteLimits">
+		<div class="siteLimits clearfix">
 			<div id="logo">
 				<img src="/img/logo_trilhos_entrada.png" alt="Trilhos da natureza"/>	
 			</div>
+			<div class="right" style="margin-left: 300px; padding: 10px;">
+				<p>O projeto “Trilhos da Natureza” visa a utilização do trilho como forma de conhecer e 
 
-			<div id="teamEntry" class="right">
-				<img src="/img/bt_acesso_equipas.png" alt="Trilhos da natureza"/>		
-				<p>Acesso exclusivo equipas de projecto</p>
-			</div>
-					
-			<div class="centered" style="margin-top: 85px; width: 150px;">
-				<p><a href="/about">Entrar</a></p>
-			</div>
-			
+compreender a Natureza. O trilho é uma ferramenta pedagógica que permite uma 
 
+grande aproximação ao espaço natural e por isso deve ser usado de forma 
+
+responsável.</p>
+
+<p>As ações deste projeto procuram essencialmente a dinamização das tradicionais 
+
+caminhadas, a proteção da floresta, estimular o gosto pela aventura e o domínio das 
+
+novas tecnologias.</p>
+
+<p>Os caminheiros/companheiros são os principais destinatários deste projeto que 
+
+organizados em equipas regionais são desafiados a implementar ações de verificação 
+
+de percursos pedestres, implementação de trilhos sustentáveis, apoiar peregrinações, 
+
+monitorizar “caches”, entre outras.</p>
+
+<p>Este projeto tem como principal parceiro a Federação de Campismo e Montanhismo de 
+
+Portugal (FCMP).</p>
+			</div>
 		</div>
 	</div>
 
 	<footer>
-		{% include "_elems/footer.html" %}
+		{% include "default/_elems/footer.html" %}
 	</footer>
-	
-	<script type="text/javascript">
-		$(function(){
-			$.jnotify("Site em desenvolvimento...", true);
-		});
-	</script>	
+		
 </body>
 </html>

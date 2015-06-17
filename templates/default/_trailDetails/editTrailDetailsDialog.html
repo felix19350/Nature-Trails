@@ -6,26 +6,26 @@
 			<table>
 				<tbody>
 					<tr>
-						<td><label for="directions">Directions</label></td>
+						<td><label for="directions">Direcções</label></td>
 						<td>
 							<textarea name="directions" id="directions">{{ trailDetails.directions }}</textarea>
 						</td>
 					</tr>
 					<tr>
-						<td><label for="recommendations">Recommendations:</label></td>
+						<td><label for="recommendations">Recomendações:</label></td>
 						<td>
 							<textarea name="recommendations" id="recommendations">{{ trailDetails.recommendations }}</textarea>
 						</td>
 					</tr>
 					<tr>
-						<td><label for="recommendedSeason">Recommended time of year:</label></td>
+						<td><label for="recommendedSeason">Época do ano recomendada:</label></td>
 						<td>
 							<select name="recommendedSeason" id="recommendedSeason">
-								<option value="Any">Any</option>
-								<option value="Spring">Spring</option>
-								<option value="Summer">Summer</option>
-								<option value="Autumn">Autumn</option>
-								<option value="Winter">Winter</option>
+								<option value="Any">Qualquer</option>
+								<option value="Spring">Primavera</option>
+								<option value="Summer">Verão</option>
+								<option value="Autumn">Outono</option>
+								<option value="Winter">Inverno</option>
 							</select>
 							<script type="text/javascript">
 								$(function(){
@@ -44,8 +44,8 @@
 						<input type="text" name="link" value="http://" />
 					</p>
 				</div>
-				<div id="addLinkBtn">Add link</div>
-				<div id="removeLinkBtn">Remove last link</div>
+				<div id="addLinkBtn">Adicionar Link</div>
+				<div id="removeLinkBtn">Remover link</div>
 				<script type="text/javascript">
 					$(function(){
 						$("#addLinkBtn").button()

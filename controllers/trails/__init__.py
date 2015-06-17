@@ -1,1 +1,1 @@
-__all__ = ['StaticHandler', 'HomeHandler', 'TrailsHandler', 'TrailHandler','TrailDetailsHandler']
+__all__ = ['BaseHandler', 'StaticHandler', 'HomeHandler', 'TrailsHandler', 'TrailHandler','TrailDetailsHandler']

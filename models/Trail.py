@@ -1,57 +1,49 @@
 import logging
-
-from google.appengine.ext import db
+#import json
+from google.appengine.ext import ndb
 from django.utils import simplejson
 
-class Trail(db.Model):
+class Trail(ndb.Model):
     '''
     Models a trail in the map
     Parameters:
         - title
-        - credentialNumber
         - extension
         - slope
-        - difficulty
-        - condition
-        - region
         - nearestCity
-        - rating
-        - tags
         - points
         - startPoint
         - creationDate
+        - timeDurationHours
+        - militaryMap
         Points are stored as a TextProperty, because they cannot be indexed. 
     '''
     
-    title = db.StringProperty(required=True)
-    credentialNumber = db.StringProperty(required=True)
-    extension = db.FloatProperty(required=True)
-    slope = db.FloatProperty(required=True)
-    difficulty = db.StringProperty(required=True, choices=set(["easy", "moderate", "hard"]))
-    condition = db.StringProperty(required=True, choices=set(["excellent", "good", "moderate", "bad", "impossible"]))
-    region = db.StringProperty(required=True, choices=set(["north", "center", "south"]))
-    nearestCity = db.StringProperty(required=True)
-    rating = db.RatingProperty(required=True)
-    startPoint = db.GeoPtProperty(required=True)
-    tags = db.ListProperty(str)
-    points = db.TextProperty()
-    creationDate = db.DateTimeProperty(auto_now_add=True)
+    title = ndb.StringProperty(required=True)
+    extension = ndb.FloatProperty(required=True)
+    slope = ndb.FloatProperty(required=True)
+    timeDurationHours = ndb.StringProperty(required=True)
+    nearestCity = ndb.StringProperty(required=True)
+    startPoint = ndb.GeoPtProperty(required=True)
+    militaryMap = ndb.StringProperty(required=True)
+    points = ndb.TextProperty()
+    creationDate = ndb.DateTimeProperty(auto_now_add=True)
     
     def __str__(self) :
-        return "%s (%s): %s (%s): %f" % (self.title, self.credentialNumber, self.region, self.nearestCity, self.extension)
+        return "%s, %s - %f" % (self.title, self.nearestCity, self.extension)
     
     
     def toMap(self, showPoints = True):
-        result = {'key':str(self.key()), 'credentialNumber': self.credentialNumber, 'startPoint': [self.startPoint.lat, self.startPoint.lon],
-                  'title': self.title, 'extension': self.extension, 'slope': '%.2f' % self.slope,
-                  'extension': '%.2f' % self.extension, 'difficulty': self.difficulty, 'condition': self.condition,
-                  'region': self.region, 'nearestCity': self.nearestCity, 'rating': self.rating,
-                  'tags': self.tags, 'creationDate': self.creationDate.isoformat()} 
+        result = {'key':self.key.id(), 'militaryMap': self.militaryMap, 'startPoint': [self.startPoint.lat, self.startPoint.lon],
+                  'title': self.title, 'slope': '%.2f' % self.slope,
+                  'extension': '%.2f' % self.extension, 'nearestCity': self.nearestCity, 'timeDurationHours': self.timeDurationHours,
+                  'creationDate': self.creationDate.isoformat()} 
+
         if(showPoints):
             result["points"] = self._parsePointText()
             
         return result
-                
+
     def toJson(self, showPoints = True):
         return simplejson.dumps(self.toMap(showPoints))
     
@@ -64,9 +56,10 @@ class Trail(db.Model):
         for t in split:
             #Split each tuple
             coords = t.split(',')
+            logging.warning(coords)
             try:
                 #Appends the data to the result. Each point is a tuple with the lat, lon and altitude
-                result.append([coords[1], coords[0], coords[2]])
+                result.append([coords[1], coords[0]])
             except:
                 logging.warning("Could not insert coords:")
                 logging.warning(coords) 

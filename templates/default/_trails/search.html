@@ -23,10 +23,10 @@
 <div>
 	<form action="#" method="get" id="searchForm">
 		<div>
-			<p><label for="mainSearch" class="itemLabel">Basic seach:</label> <input type="text" name="q"
+			<p><label for="mainSearch" class="itemLabel">Pesquisa básica:</label> <input type="text" name="q"
 				id="mainSearch" value="Search trails..."/></p>
 			<p style="text-align: right; font-size: 10px; color: #ccc;">
-				<a id="showAdvanced" href="#" style="">Show advanced options</a>
+				<a id="showAdvanced" href="#" style="">Opções avançadas</a>
 			</p>
 		</div>
 		
@@ -34,39 +34,16 @@
 			<table id="advancedSearchTable">
 				<tbody>
 					<tr>
-						<td style="width: 35%;"><label for="city">Nearest city:</label></td>
+						<td style="width: 35%;"><label for="city">Localidade:</label></td>
 						<td><input type="text" name="city" id="city" value="" />
 						</td>
 					</tr>
-					<tr>
-						<td>
-							<label for="city">Difficulty:</label>
-						</td>
-						<td>
-							<input type="checkbox" id="search_difficulty_easy" name="difficulty" value="easy" /><label for="search_difficulty_easy">Easy</label>
-							<input type="checkbox" id="search_difficulty_moderate" name="difficulty" value="moderate"/><label for="search_difficulty_moderate">Moderate</label>
-							<input type="checkbox" id="search_difficulty_hard" name="difficulty" value="hard"/><label for="search_difficulty_hard">Hard</label>	
-						</td>					
-					</tr>
-					<tr>
-						<td>
-							<label for="city">Condition:</label>
-						</td>
-						<td>
-							<input type="checkbox" name="condition" id="search_cond_excellent" value="excellent"/><label for="search_cond_excellent">Excellent</label>
-							<input type="checkbox" name="condition" id="search_cond_good" value="good"/><label for="search_cond_good">Good</label>
-							<input type="checkbox" name="condition" id="search_cond_moderate" value="moderate"/><label for="search_cond_moderate">Moderate</label>
-							<input type="checkbox" name="condition" id="search_cond_bad" value="bad"/><label for="search_cond_bad">Bad</label>
-							<input type="checkbox" name="condition" id="search_cond_impossible" value="impossible"/><label for="search_cond_impossible">Impossible</label>
-						</td>
-					</tr>
-
 				</tbody>
 			</table>
 		</div>
 		<div style="margin-top: 20px; text-align: right;">
 			<button type="submit" name="submit" id="submit">
-				<span>Submit</span>
+				<span>Pesquisar</span>
 			</button>
 		</div>
 	</form>

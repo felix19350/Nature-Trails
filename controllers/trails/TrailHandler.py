@@ -1,17 +1,18 @@
 import os
 import sys
 import logging
+import webapp2
 
+from webapp2_extras import jinja2
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext.webapp import template
 from google.appengine.ext import blobstore
-from google.appengine.ext import db
+from google.appengine.ext.ndb import Key
 from google.appengine.api import users
 
 from models.Trail import Trail
-from models.TrailDetails import TrailDetails
-from models.ActivityLog import ActivityLog
 from utils.KmlParser import KmlParser
+
 from django.utils import simplejson
 
 '''
@@ -24,6 +25,13 @@ from django.utils import simplejson
 '''
 class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
 
+    @webapp2.cached_property
+    def jinja2(self):
+        return jinja2.get_jinja2(app=self.app)
+    
+    def render_template(self, filename, **template_args):
+        self.response.write(self.jinja2.render_template(filename, **template_args))
+
     '''
         Handler for the GET method. Fetches a single trail.
         @param trailId - The id of the trail to fetch
@@ -34,7 +42,7 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
         renders the view associated with a trail. 
     '''
     def get(self, trailId): 
-        trail = Trail.get(trailId)
+        trail = Key("Trail", long(trailId)).get()
         if(trail is not None):
             if(self.request.get("remote") and self.request.get("callback")):
                 #If the client provides a "callback" argument, then we assume we have a JSONP call.
@@ -47,11 +55,11 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
                 self.response.out.write(trail.toJson())
             else:
                 #otherwise, render the default view
-                path = os.path.join(os.path.dirname(__file__) + '/../../templates/default/', 'trail.html')
-                uploadUrlStr = '/trail/' + str(trail.key())
+                path = os.path.join('default/', 'trail.html')
+                uploadUrlStr = '/trail/' + str(trail.key.id)
                 uploadUrl = blobstore.create_upload_url(uploadUrlStr)
-                self.response.out.write(template.render(path, {'trail': trail, 'jsonTrail': trail.toJson(), 'logoutUrl': users.create_logout_url("/"), 'uploadUrl': uploadUrl}))
-                
+                context = {'trail': trail, 'jsonTrail': trail.toJson(), 'logoutUrl': users.create_logout_url("/"), 'uploadUrl': uploadUrl}
+                self.render_template(path, **context)
         else:
             self.error(404)
      
@@ -64,19 +72,12 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
 
         @param trailId - optional, if present updates the trail
         @param title
-        @param credentialNumber
-        @param difficulty
-        @param condition
-        @param region
+        @param militaryMap
+        @param timeDurationHours
         @param nearestCity
         @param tags
         @param file - the KML file
         
-        If the following parameters are present, a TrailDetails entry is added:
-        @param recommendedSeason - optional
-        @param recommendations - optional
-        @param directions - optional
-        @param links - optional 
     '''
     def post(self, trailId = None):
         
@@ -88,7 +89,7 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
                 
                 parser = KmlParser()
                 trailInfo = parser.parseKml(blobReader)
-                
+                logging.debug(trailInfo)
                 blobInfo.delete()
                 
                 #parse tags, if any. It is assumed that they are separated by commas.
@@ -96,25 +97,14 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
                     
                 #store entry
                 entry = Trail(title = self.request.get('title'),
-                                credentialNumber = self.request.get('credentialNumber'),
-                                difficulty =self.request.get('difficulty'),
-                                condition = self.request.get('condition'),
-                                region = self.request.get('region'),
+                                militaryMap = self.request.get('militaryMap'),
                                 nearestCity = self.request.get('nearestCity'),
-                                rating = 0,
-                                tags = tags,
+                                timeDurationHours = self.request.get('timeDurationHours'),
                                 extension = trailInfo['extension'],
-                                slope = trailInfo['slope'],                                 
-                                startPoint = trailInfo['startPoint'], 
+                                slope = trailInfo['slope'],
+                                startPoint = trailInfo['startPoint'],
                                 points = simplejson.dumps(trailInfo['points']))
                 entry.put()
-                
-                #log action
-                usr = users.get_current_user()
-                if(usr is not None):
-                    logEntry = ActivityLog(user=usr, action="Create - Trail")
-                    logEntry.put()
-                
                 self.redirect('/trails')
             except:
                 logging.exception("Unexpected creating trail: %s", sys.exc_info()[0])
@@ -129,10 +119,8 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
 
         @param trailId
         @param title
-        @param credentialNumber
-        @param difficulty
-        @param condition
-        @param region
+        @param militaryMap
+        @param timeDurationHours
         @param nearestCity
         @param tags
         @param file - the KML file       
@@ -148,28 +136,11 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
     '''      
     def delete(self, trailId):
         try:
-            trail = Trail.get(trailId)
+            trail = Key("Trail", long(trailId)).get()
             
             if(trail is not None):
-                '''
-                    Try to delete the trail, setting the status to 200 if it is successful.
-                    Fetches all the trail details matches and deletes them.
-                '''
-                             
-                q = db.Query(TrailDetails).filter('trail', trail)
-                
-                for trailDetails in q:
-                    trailDetails.delete()
-                
                 trail.delete()
-                
-                #log action
-                usr = users.get_current_user()
-                if(usr is not None):
-                    logEntry = ActivityLog(user=usr, action="Delete - Trail")
-                    logEntry.put()
-                  
-                self.response.clear()         
+                self.response.clear()
                 self.response.set_status(200)
             else:
                 self.error(404)
@@ -181,7 +152,7 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
     
     def _updateTrail(self, trailId):
         try:
-            trail = Trail.get(trailId)
+            trail = Key("Trail", long(trailId)).get()
             
             if(trail is not None):
                 '''
@@ -189,10 +160,8 @@ class TrailHandler(blobstore_handlers.BlobstoreUploadHandler):
                     First the properties that are not related to the file upload are updated.
                 '''
                 trail.title = self.request.get('title')
-                trail.credentialNumber= self.request.get('credentialNumber')
-                trail.difficulty= self.request.get('difficulty')
-                trail.condition= self.request.get('condition')
-                trail.region= self.request.get('region')
+                trail.militaryMap= self.request.get('militaryMap')
+                trail.timeDurationHours= self.request.get('timeDurationHours')
                 trail.nearestCity= self.request.get('nearestCity')
                 trail.tags= self.request.get('tags').split(',')
                 

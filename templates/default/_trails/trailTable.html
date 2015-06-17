@@ -3,20 +3,18 @@
 <table class="baseTable">
 	<thead>
 		<tr>
-			<th>Title</th>
-			<th>Region</th>
-			<th>Nearest city</th>
+			<th>Localidade</th>
+			<th>Extensão</th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		{% for entry in trails %}
-		<tr class={% cycle odd,even %}>
-			<td>{{ entry.title }}</td>
-			<td>{{ entry.region }}</td>
+		<tr class="{{ loop.cycle('odd', 'even') }}">
 			<td>{{ entry.nearestCity }}</td>
+			<td>{{ entry.extension }}</td>
 			<td>
-				<a id="viewBtn_{{ entry.key }}" href="/trail/{{ entry.key }}">View</a>
+				<a id="viewBtn_{{ entry.key.id() }}" href="/trail/{{ entry.key.id() }}">View</a>
 			</td>
 		</tr>
 		{% endfor %}
@@ -24,5 +22,5 @@
 </table>
 
 {% else %}
-<p>There are no trails in the application.</p>
+<p>Não há trilhos na aplicação..</p>
 {% endif %}

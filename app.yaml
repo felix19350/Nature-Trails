@@ -1,7 +1,16 @@
-application: ruinmaps
+application: ruinmaps-hrd
 version: 1
 api_version: 1
-runtime: python
+runtime: python27
+threadsafe: false
+
+libraries:
+- name: django
+  version: "1.2"
+- name: jinja2
+  version: latest
+- name: markupsafe
+  version: latest 
 
 handlers:
 - url: /js

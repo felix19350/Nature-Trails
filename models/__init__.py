@@ -1,1 +1,1 @@
-__all__ = ['EntryRating', 'ActivityLog', 'Trail', 'TrailDetails']
+__all__ = ['Trail']

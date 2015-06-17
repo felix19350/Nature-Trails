@@ -19,15 +19,14 @@ class KmlParser:
         xml = ElementTree()      
         xml = xml.parse(kmlFile)
         
-        namespaces = ["http://www.opengis.net/kml/2.2", "http://earth.google.com/kml/2.0"]
+        namespaces = ["http://www.opengis.net/kml/2.2"]
         for ns in namespaces: 
-            query = '{%(ns)s}Document/{%(ns)s}Placemark/{%(ns)s}LineString/{%(ns)s}coordinates' % {'ns': ns}
+            query = '{%(ns)s}Document/{%(ns)s}Folder/{%(ns)s}Placemark/{%(ns)s}Point/{%(ns)s}coordinates' % {'ns': ns}
             
-            coordinates = xml.find(query)
+            coordinates = xml.findall(query)
             if coordinates is not None :
-                nodeText = coordinates.text
-                
-                numberCrunching = self.analizeKml(nodeText)
+                logging.warning(len(coordinates))
+                numberCrunching = self.analizeKml(coordinates)
                 result['startPoint']= numberCrunching['startPoint']
                 result['extension'] = numberCrunching['extension']
                 result['slope'] = numberCrunching['slope']
@@ -41,13 +40,13 @@ class KmlParser:
     '''
         In KML the coordinates are stored as triplets of latitude, longitude and altitude
     '''
-    def analizeKml(self, nodeText):
+    def analizeKml(self, coordinates):
         #the kml standard says that the coordinates are separated by a whitespace
         #Just in case we transform any linebreaks we find into spaces (some devices
         #generate KMLs with \n separating each point)
-        nodeText = nodeText.replace('\n', ' ')
-        split = nodeText.split(' ')
-        logging.warning("Num points: ")
+        #nodeText = nodeText.replace('\n', ' ')
+        #split = nodeText.split(' ')
+        #logging.warning("Num points: ")
         
         startPoint = None
         lastPoint = None
@@ -57,9 +56,10 @@ class KmlParser:
         pointSet = ""
         numFiltered = 0
         
-        for tuple in split:
+        for coord in coordinates:
             #Split each tuple
-            coords = tuple.split(',')
+            coords = coord.text.split(',')
+            logging.warning(coords)
             try:
                 #create a GeoPt and do calculations
                 currentPoint = GeoPt(float(coords[1]), float(coords[0])) 
@@ -83,14 +83,10 @@ class KmlParser:
                 if(lastPoint is not None):
                     filter = self.calculateDistance(currentPoint, lastPoint)
                  
-                if(filter > self.THRESHOLD):
-                    pointSet += " %s" % tuple
+                if(filter > self.THRESHOLD or lastPoint is None):
+                    pointSet += " %s,%s" % (coords[0],coords[1])
                     lastPoint = currentPoint
                     numFiltered = numFiltered + 1
-                    
-                if(lastPoint is None):
-                    lastPoint = currentPoint
-                    
             except:
                 logging.error("Unexpected error: %s", sys.exc_info()[0])
         
